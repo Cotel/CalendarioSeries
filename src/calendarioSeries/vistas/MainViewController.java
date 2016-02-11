@@ -7,6 +7,7 @@ package calendarioSeries.vistas;
 
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
+import java.util.Calendar;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -44,9 +45,22 @@ public class MainViewController {
         labelNumMes.setText(Integer.toString(mes.getNumMes()));
         labelNumAno.setText(Integer.toString(mes.getNumAno()));
         
-        int i = 1;
-        for(Label label : diasMes) {
-            label.setText(Integer.toString(i++));
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, mes.getNumMes());
+        cal.set(Calendar.YEAR, mes.getNumAno());
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        
+        int firstDay = cal.getTime().getDay();
+        if(firstDay != 0) {
+            firstDay -= 1;
+        } else {
+            firstDay = 6;
+        }
+        System.out.println(firstDay);
+        int count = 1;
+        
+        for(int i=firstDay; i<mes.getDiasMes(); i++) {
+            diasMes.get(i).setText(Integer.toString(count++));
         }
     }
     

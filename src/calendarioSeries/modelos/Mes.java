@@ -33,7 +33,7 @@ public class Mes {
         cal.setTime(fecha);
         
         this.numAno = new SimpleIntegerProperty(cal.get(Calendar.YEAR));
-        this.numMes = new SimpleIntegerProperty(cal.get(Calendar.MONTH)+1);
+        this.numMes = new SimpleIntegerProperty(cal.get(Calendar.MONTH));
         
         yearMonthObject = YearMonth.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
         this.nombreMes = new SimpleStringProperty(yearMonthObject.getMonth().
@@ -51,7 +51,7 @@ public class Mes {
                         getDisplayName(TextStyle.FULL, new Locale("es", "ES")));
         this.diasMes = new SimpleIntegerProperty(yearMonthObject.lengthOfMonth());        
         
-    }
+    }   
     
     public String getNombreMes() {
         return this.nombreMes.get();

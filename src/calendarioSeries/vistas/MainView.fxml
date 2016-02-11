@@ -21,33 +21,33 @@
                <children>
                   <VBox layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="631.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="34.0" prefWidth="660.0" spacing="170.0">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="660.0" spacing="165.0">
                            <children>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleButtonPressed" text="&lt;" HBox.hgrow="ALWAYS">
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&lt;" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="2.0" right="2.0" top="2.0" />
                                  </HBox.margin>
                               </Button>
-                              <HBox spacing="20.0" HBox.hgrow="ALWAYS">
+                              <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="225.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label fx:id="labelNumAno" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Ano" textAlignment="CENTER">
+                                    <Label fx:id="labelNumAno" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Ano" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="labelNombreMes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="MES" textAlignment="CENTER">
+                                    <Label fx:id="labelNombreMes" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="MES" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="labelNumMes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="NUM" textAlignment="CENTER">
+                                    <Label fx:id="labelNumMes" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="NUM" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" text="&gt;" HBox.hgrow="ALWAYS">
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&gt;" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="2.0" right="2.0" top="2.0" />
                                  </HBox.margin>
