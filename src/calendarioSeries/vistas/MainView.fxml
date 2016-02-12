@@ -23,7 +23,7 @@
                      <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="660.0" spacing="165.0">
                            <children>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&lt;" HBox.hgrow="ALWAYS">
+                              <Button fx:id="previous" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&lt;" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="2.0" right="2.0" top="2.0" />
                                  </HBox.margin>
@@ -47,7 +47,7 @@
                                     </Label>
                                  </children>
                               </HBox>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&gt;" HBox.hgrow="ALWAYS">
+                              <Button fx:id="next" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&gt;" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="2.0" right="2.0" top="2.0" />
                                  </HBox.margin>
