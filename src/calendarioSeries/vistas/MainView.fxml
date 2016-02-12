@@ -4,441 +4,465 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.util.ArrayList?>
 
-<AnchorPane id="AnchorPane" prefHeight="618.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
-   <children>
-      <SplitPane dividerPositions="0.6558441558441559" layoutX="44.0" layoutY="6.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+<TabPane prefHeight="756.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
+   <tabs>
+      <Tab text="Panel">
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <VBox layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="631.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane minHeight="-Infinity" prefHeight="52.0" prefWidth="662.0">
                      <children>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="660.0" spacing="165.0">
-                           <children>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&lt;" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets bottom="2.0" right="2.0" top="2.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="225.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Label fx:id="labelNumAno" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Ano" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelNombreMes" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="MES" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelNumMes" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="NUM" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&gt;" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets bottom="2.0" right="2.0" top="2.0" />
-                                 </HBox.margin>
-                              </Button>
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </HBox>
-                        <GridPane gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="367.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label alignment="CENTER" text="LUNES" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER" text="MARTES" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER" text="MIERCOLES" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER" text="JUEVES" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER" text="VIERNES" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER" text="SABADO" textAlignment="CENTER" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER" text="DOMINGO" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="label0" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label1" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label2" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label3" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label4" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label5" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label6" alignment="TOP_LEFT" layoutX="480.0" layoutY="72.0" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label7" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label8" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label9" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label10" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label11" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label12" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label13" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label14" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label15" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label16" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label17" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label18" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label19" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label20" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label21" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label22" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label23" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label24" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label25" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label26" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label27" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label28" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label29" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label30" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label31" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label32" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label33" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label fx:id="label34" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              
-                              <fx:define>
-                                  <ArrayList fx:id="diasMes">
-                                      <fx:reference source="label0" />
-                                      <fx:reference source="label1" />
-                                      <fx:reference source="label2" />
-                                      <fx:reference source="label3" />
-                                      <fx:reference source="label4" />
-                                      <fx:reference source="label5" />
-                                      <fx:reference source="label6" />
-                                      <fx:reference source="label7" />
-                                      <fx:reference source="label8" />
-                                      <fx:reference source="label9" />
-                                      <fx:reference source="label10" />
-                                      <fx:reference source="label11" />
-                                      <fx:reference source="label12" />
-                                      <fx:reference source="label13" />
-                                      <fx:reference source="label14" />
-                                      <fx:reference source="label15" />
-                                      <fx:reference source="label16" />
-                                      <fx:reference source="label17" />
-                                      <fx:reference source="label18" />
-                                      <fx:reference source="label19" />
-                                      <fx:reference source="label20" />
-                                      <fx:reference source="label21" />
-                                      <fx:reference source="label22" />
-                                      <fx:reference source="label23" />
-                                      <fx:reference source="label24" />
-                                      <fx:reference source="label25" />
-                                      <fx:reference source="label26" />
-                                      <fx:reference source="label27" />
-                                      <fx:reference source="label28" />
-                                      <fx:reference source="label29" />
-                                      <fx:reference source="label30" />
-                                      <fx:reference source="label31" />
-                                      <fx:reference source="label32" />
-                                      <fx:reference source="label33" />
-                                      <fx:reference source="label34" />
-                                  </ArrayList>                                      
-                              </fx:define>                              
-                           </children>
-                        </GridPane>
+                        <Button layoutX="596.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefWidth="60.0" text="+" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
                      </children>
-                  </VBox>
+                  </AnchorPane>
+                  <TilePane prefHeight="566.0" prefWidth="662.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </content>
+      </Tab>
+      <Tab text="Calendario">
+         <content>
+            <AnchorPane id="AnchorPane" prefHeight="618.0" prefWidth="662.0">
+               <children>
+                  <SplitPane dividerPositions="0.7848275862068965" layoutX="44.0" layoutY="6.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <VBox layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="631.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="660.0" spacing="165.0">
+                                       <children>
+                                          <Button fx:id="previous" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&lt;" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="225.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="labelNumAno" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Ano" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="System Bold" size="20.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="labelNombreMes" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="MES" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="System Bold" size="20.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="labelNumMes" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="NUM" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="System Bold" size="20.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Button fx:id="next" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleButtonPressed" prefWidth="50.0" text="&gt;" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <GridPane gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="367.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label alignment="CENTER" text="LUNES" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="MARTES" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="MIERCOLES" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="JUEVES" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="VIERNES" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="SABADO" textAlignment="CENTER" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="DOMINGO" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="label0" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label1" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label2" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label3" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label4" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label5" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label6" alignment="TOP_LEFT" layoutX="480.0" layoutY="72.0" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label7" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label8" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label9" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label10" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label11" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label12" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label13" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label14" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label15" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label16" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label17" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label18" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label19" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label20" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label21" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label22" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label23" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label24" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label25" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label26" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label27" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label28" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label29" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label30" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label31" alignment="TOP_LEFT" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label32" alignment="TOP_LEFT" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label33" alignment="TOP_LEFT" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="label34" alignment="TOP_LEFT" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          
+                                          <fx:define>
+                                              <ArrayList fx:id="diasMes">
+                                                  <fx:reference source="label0" />
+                                                  <fx:reference source="label1" />
+                                                  <fx:reference source="label2" />
+                                                  <fx:reference source="label3" />
+                                                  <fx:reference source="label4" />
+                                                  <fx:reference source="label5" />
+                                                  <fx:reference source="label6" />
+                                                  <fx:reference source="label7" />
+                                                  <fx:reference source="label8" />
+                                                  <fx:reference source="label9" />
+                                                  <fx:reference source="label10" />
+                                                  <fx:reference source="label11" />
+                                                  <fx:reference source="label12" />
+                                                  <fx:reference source="label13" />
+                                                  <fx:reference source="label14" />
+                                                  <fx:reference source="label15" />
+                                                  <fx:reference source="label16" />
+                                                  <fx:reference source="label17" />
+                                                  <fx:reference source="label18" />
+                                                  <fx:reference source="label19" />
+                                                  <fx:reference source="label20" />
+                                                  <fx:reference source="label21" />
+                                                  <fx:reference source="label22" />
+                                                  <fx:reference source="label23" />
+                                                  <fx:reference source="label24" />
+                                                  <fx:reference source="label25" />
+                                                  <fx:reference source="label26" />
+                                                  <fx:reference source="label27" />
+                                                  <fx:reference source="label28" />
+                                                  <fx:reference source="label29" />
+                                                  <fx:reference source="label30" />
+                                                  <fx:reference source="label31" />
+                                                  <fx:reference source="label32" />
+                                                  <fx:reference source="label33" />
+                                                  <fx:reference source="label34" />
+                                              </ArrayList>                                      
+                                          </fx:define>                              
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                    </items>
+                  </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-        </items>
-      </SplitPane>
-   </children>
-</AnchorPane>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>
