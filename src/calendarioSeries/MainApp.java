@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -23,7 +24,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
     
     private Stage primaryStage;
-    private AnchorPane rootLayout;
+    private TabPane rootLayout;
     
     private ObservableList<Mes> meses = FXCollections.observableArrayList();
     
@@ -43,7 +44,7 @@ public class MainApp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vistas/MainView.fxml"));
-            rootLayout = (AnchorPane) loader.load();
+            rootLayout = (TabPane) loader.load();
             
             MainViewController controller = loader.getController();
             controller.setMainApp(this);

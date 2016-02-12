@@ -46,7 +46,7 @@ public class Mes {
         this.numAno = new SimpleIntegerProperty(numAno);
         this.numMes = new SimpleIntegerProperty(numMes);        
         
-        yearMonthObject = YearMonth.of(numAno, numMes);
+        yearMonthObject = YearMonth.of(numAno, numMes+1);
         this.nombreMes = new SimpleStringProperty(yearMonthObject.getMonth().
                         getDisplayName(TextStyle.FULL, new Locale("es", "ES")));
         this.diasMes = new SimpleIntegerProperty(yearMonthObject.lengthOfMonth());        
