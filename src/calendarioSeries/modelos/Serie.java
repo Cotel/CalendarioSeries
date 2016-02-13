@@ -9,8 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -26,41 +28,54 @@ public class Serie {
     private String[][] capitulos;
     private int temporadas;
     private JSONObject json;
+    private String urlImagen;
+    
+    private StringProperty tituloProperty;
     
     public Serie(String titulo) {
-        String toJson = readUrl(BASE + "t=" + titulo.toLowerCase() +
+        titulo = titulo.replaceAll(" ", "+");
+        titulo = titulo.toLowerCase();
+        try {
+            String toJson = readUrl(BASE + "t=" + titulo +
                     "&type=series" + "&plot=short" + "&r=json");
-        this.json = new JSONObject(toJson);
-        
-        this.titulo = json.getString("Title");
-        
-        boolean next = true;
-        int temporada = 1;
-        int caps = 0;
-        JSONObject aux;
-        while(next) {
-            aux = new JSONObject(readUrl(BASE + "t=" + this.titulo + 
-                    "&Season=" + temporada + "&r=json"));
-            if(!aux.getString("Response").equals("False")) {
-                temporada++;
-                int actual = aux.getJSONArray("Episodes").length();
-                if(actual > caps) caps = actual;
-            } else {
-                next = false;
+            this.json = new JSONObject(toJson);
+            
+            if(this.json.getString("Response").equals("True")) {
+                this.titulo = json.getString("Title");
+                this.tituloProperty = new SimpleStringProperty(titulo);
+                this.urlImagen = json.getString("Poster");
+
+                boolean next = true;
+                int temporada = 1;
+                int caps = 0;
+                JSONObject aux;
+                while(next) {
+                    aux = new JSONObject(readUrl(BASE + "t=" + titulo +
+                            "&Season=" + temporada + "&r=json"));
+                    if(!aux.getString("Response").equals("False")) {
+                        temporada++;
+                        int actual = aux.getJSONArray("Episodes").length();
+                        if(actual > caps) caps = actual;
+                    } else {
+                        next = false;
+                        temporada--;
+                    }
+                }
+
+                this.temporadas = temporada;
+                this.capitulos = new String[temporadas][caps];
+                for(int i=0; i<capitulos.length; i++) {
+                    aux = new JSONObject(readUrl(BASE + "t=" + titulo +
+                            "&Season=" + (i+1) + "&r=json"));
+                    JSONArray listaCaps = aux.getJSONArray("Episodes");
+                    for(int j=0; j<capitulos[i].length; j++) {
+                        capitulos[i][j] = i+1 + "x" + j+1 + " " + listaCaps.getJSONObject(j).getString("Title");
+                    }
+                }
             }
-        }
-        
-        this.temporadas = temporada;
-        this.capitulos = new String[temporadas][caps];
-        for(int i=0; i<capitulos.length; i++) {
-            aux = new JSONObject(readUrl(BASE + "t=" + this.titulo + 
-                    "&Season=" + i + "&r=json"));
-            JSONArray listaCaps = aux.getJSONArray("Episodes");
-            for(int j=0; j<capitulos[i].length; j++) {
-                capitulos[i][j] = i+1 + "x" + j+1 + " " + listaCaps.getJSONObject(j).getString("Title");
-            }
-        }
-        
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }        
     }
     
     private String readUrl(String stringUrl) {
@@ -91,13 +106,22 @@ public class Serie {
     public String getTitulo() {
         return titulo;
     }
+    
+    public String getUrlImagen() {
+        return urlImagen;
+    }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+        this.tituloProperty.setValue(titulo);
     }
 
     public String[][] getCapitulos() {
         return capitulos;
+    }
+    
+    public StringProperty getTituloProperty() {
+        return tituloProperty;
     }
 
     public void setCapitulos(String[][] capitulos) {
@@ -112,11 +136,16 @@ public class Serie {
         this.temporadas = temporadas;
     }
     
+
     
-    
-    public static void main(String[] args) {
-        Serie arrow = new Serie("Arrow");
-        System.out.println(Arrays.toString(arrow.getCapitulos()));
-    }
+//    public static void main(String[] args) {
+//        Serie arrow = new Serie("agents of shield");
+//        System.out.println(arrow.getTitulo());
+//        for(int i=0; i<arrow.getTemporadas(); i++) {
+//            for(int j=0; j<arrow.getCapitulos()[i].length; j++) {
+//                System.out.println(arrow.getCapitulos()[i][j]);
+//            }
+//        }
+//    }
     
 }

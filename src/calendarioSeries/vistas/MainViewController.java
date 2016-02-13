@@ -7,12 +7,19 @@ package calendarioSeries.vistas;
 
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
+import calendarioSeries.modelos.Serie;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
 
 /**
  *
@@ -32,12 +39,22 @@ public class MainViewController {
     private Button next;
     @FXML
     private Button previous;
+    @FXML
+    private TilePane imagenes;
     
     private MainApp mainApp;
     private Mes mesActual;
+    private List<Serie> series;
     
     public MainViewController() {
         mesActual = new Mes();
+        this.series = new ArrayList<>();
+        this.series.add(new Serie("arrow"));
+        this.series.add(new Serie("narcos"));
+        this.series.add(new Serie("the flash"));
+        this.series.add(new Serie("game of thrones"));
+        this.series.add(new Serie("house of cards"));
+        this.series.add(new Serie("the magicians"));
     }
     
     @FXML
@@ -46,7 +63,27 @@ public class MainViewController {
         next.setId("next");
         previous = new Button();
         previous.setId("previous");
+        imagenes.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                imagenes.hgapProperty().set(newSceneWidth.doubleValue()/88);
+            }
+        });
+        populateImagenes();
         showDetallesMes(mesActual);
+    }
+    
+    private void populateImagenes() {
+        for (Serie serie : series) {
+            Image image = new Image(serie.getUrlImagen());
+            ImageView poster = new ImageView();
+            poster.setImage(image);
+            // poster.setPreserveRatio(true);
+            poster.setFitWidth(210);
+            poster.setFitHeight(300);
+//            poster.setSmooth(true);
+            imagenes.getChildren().add(poster);
+        }
     }
     
     private void showDetallesMes(Mes mes) {
@@ -100,5 +137,6 @@ public class MainViewController {
     
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        
     }
 }

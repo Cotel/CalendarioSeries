@@ -5,7 +5,7 @@
  */
 package calendarioSeries;
 
-import calendarioSeries.modelos.Mes;
+import calendarioSeries.modelos.Serie;
 import calendarioSeries.vistas.MainViewController;
 import java.io.IOException;
 import javafx.application.Application;
@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -24,16 +24,16 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
     
     private Stage primaryStage;
-    private TabPane rootLayout;
+    private BorderPane rootLayout;
     
-    private ObservableList<Mes> meses = FXCollections.observableArrayList();
+    private ObservableList<Serie> series = FXCollections.observableArrayList();
     
     public MainApp() {
-        meses.add(new Mes());        
+
     }
     
-    public ObservableList<Mes> getDatosMes() {
-        return meses;
+    public ObservableList<Serie> getDatosSeries() {
+        return series;
     }
     
     @Override
@@ -44,7 +44,7 @@ public class MainApp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vistas/MainView.fxml"));
-            rootLayout = (TabPane) loader.load();
+            rootLayout = (BorderPane) loader.load();
             
             MainViewController controller = loader.getController();
             controller.setMainApp(this);
