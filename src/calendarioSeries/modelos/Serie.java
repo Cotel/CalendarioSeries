@@ -5,10 +5,16 @@
  */
 package calendarioSeries.modelos;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.YearMonthDV;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.time.YearMonth;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.json.JSONArray;
@@ -69,13 +75,29 @@ public class Serie {
                             "&Season=" + (i+1) + "&r=json"));
                     JSONArray listaCaps = aux.getJSONArray("Episodes");
                     for(int j=0; j<capitulos[i].length; j++) {
-                        capitulos[i][j] = i+1 + "x" + j+1 + " " + listaCaps.getJSONObject(j).getString("Title");
+                        capitulos[i][j] = i+1 + "x" + (j+1) + " " +
+                                listaCaps.getJSONObject(j).getString("Title") + " " +
+                                listaCaps.getJSONObject(j).getString("Released");
                     }
                 }
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
         }        
+    }
+    
+    public Map<String, String> getCapitulosMes(int ano, int mes) {
+        Map<String, String> capitulosMes = new HashMap<String, String>();
+        
+        for(int i=0; i<capitulos[temporadas-1].length; i++) {
+            String fecha = capitulos[temporadas-1][i].substring(capitulos[temporadas-1][i].lastIndexOf(' ') + 1);
+            String[] detalle = fecha.split("-");
+            if(Integer.parseInt(detalle[0]) == ano && Integer.parseInt(detalle[1]) == mes) {
+                capitulosMes.put(detalle[2], capitulos[temporadas-1][i].substring(0, capitulos[temporadas-1][i].lastIndexOf(' ')));
+            }
+        }
+        
+        return capitulosMes;
     }
     
     private String readUrl(String stringUrl) {
@@ -138,14 +160,10 @@ public class Serie {
     
 
     
-//    public static void main(String[] args) {
-//        Serie arrow = new Serie("agents of shield");
-//        System.out.println(arrow.getTitulo());
-//        for(int i=0; i<arrow.getTemporadas(); i++) {
-//            for(int j=0; j<arrow.getCapitulos()[i].length; j++) {
-//                System.out.println(arrow.getCapitulos()[i][j]);
-//            }
-//        }
-//    }
+    public static void main(String[] args) {
+        Serie arrow = new Serie("arrow");
+        System.out.println(arrow.getCapitulosMes(2016, 02));
+        
+    }
     
 }

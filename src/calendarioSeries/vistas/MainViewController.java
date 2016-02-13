@@ -8,6 +8,7 @@ package calendarioSeries.vistas;
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
 import calendarioSeries.modelos.Serie;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,11 +16,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 /**
  *
@@ -40,6 +49,8 @@ public class MainViewController {
     @FXML
     private Button previous;
     @FXML
+    private MenuItem addNew;
+    @FXML
     private TilePane imagenes;
     
     private MainApp mainApp;
@@ -50,11 +61,11 @@ public class MainViewController {
         mesActual = new Mes();
         this.series = new ArrayList<>();
         this.series.add(new Serie("arrow"));
-        this.series.add(new Serie("narcos"));
-        this.series.add(new Serie("the flash"));
-        this.series.add(new Serie("game of thrones"));
-        this.series.add(new Serie("house of cards"));
-        this.series.add(new Serie("the magicians"));
+        //this.series.add(new Serie("narcos"));
+        //this.series.add(new Serie("the flash"));
+        //this.series.add(new Serie("game of thrones"));
+        //this.series.add(new Serie("house of cards"));
+        //this.series.add(new Serie("the magicians"));
     }
     
     @FXML
@@ -73,16 +84,25 @@ public class MainViewController {
         showDetallesMes(mesActual);
     }
     
-    private void populateImagenes() {
+    public List<Serie> getSeries() {
+        return this.series;
+    }
+    
+    public void populateImagenes() {
+        imagenes.getChildren().clear();
         for (Serie serie : series) {
-            Image image = new Image(serie.getUrlImagen());
-            ImageView poster = new ImageView();
-            poster.setImage(image);
-            // poster.setPreserveRatio(true);
-            poster.setFitWidth(210);
-            poster.setFitHeight(300);
-//            poster.setSmooth(true);
-            imagenes.getChildren().add(poster);
+            try {
+                Image image = new Image(serie.getUrlImagen());
+                ImageView poster = new ImageView();
+                poster.setImage(image);
+                // poster.setPreserveRatio(true);
+                poster.setFitWidth(210);
+                poster.setFitHeight(300);
+                imagenes.getChildren().add(poster);
+            } catch (IllegalArgumentException e) {
+                Label serieSinI = new Label(serie.getTitulo());   
+                imagenes.getChildren().add(new Label(serie.getTitulo()));
+            }
         }
     }
     
@@ -107,6 +127,26 @@ public class MainViewController {
         
         for(int i=0; i<mes.getDiasMes(); i++) {
             diasMes.get(firstDay + i).setText(Integer.toString(count++));
+        }
+    }
+    
+    @FXML
+    private void addNewSerie() {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainViewController.class.getResource("NewSerieView.fxml"));
+            root = loader.load();
+            
+            NewSerieController controller = loader.getController();
+            controller.setMainController(this);
+            
+            Stage stage = new Stage();
+            stage.setTitle("Añade una nueva serie");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     

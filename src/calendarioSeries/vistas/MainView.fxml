@@ -21,6 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import java.util.ArrayList?>
 
+
 <BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
    <center>
       <TabPane prefHeight="775.0" prefWidth="1145.0">
@@ -479,12 +480,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="addNew" mnemonicParsing="false" onAction="#addNewSerie" text="Añadir serie" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
