@@ -13,18 +13,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
@@ -49,7 +53,7 @@ public class MainViewController {
     @FXML
     private MenuItem addNew;
     @FXML
-    private TilePane imagenes;
+    private TilePane imagenes;    
     
     private MainApp mainApp;
     private Mes mesActual;
@@ -67,7 +71,7 @@ public class MainViewController {
     }
     
     @FXML
-    public void initialize() {
+    public void initialize() {        
         next = new Button();
         next.setId("next");
         previous = new Button();
@@ -87,57 +91,99 @@ public class MainViewController {
     }
     
     public void populateImagenes() {
-        imagenes.getChildren().clear();
-        for (Serie serie : series) {
-            try {
-                Image image = new Image(serie.getUrlImagen());
-                ImageView poster = new ImageView();
-                poster.setImage(image);
-                // poster.setPreserveRatio(true);
-                poster.setFitWidth(210);
-                poster.setFitHeight(300);
-                imagenes.getChildren().add(poster);
-            } catch (IllegalArgumentException e) {
-                Label serieSinI = new Label(serie.getTitulo());   
-                imagenes.getChildren().add(new Label(serie.getTitulo()));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                imagenes.getChildren().clear();
+                for (Serie serie : series) {
+                    try {
+                        Image image = new Image(serie.getUrlImagen());
+                        ImageView poster = new ImageView();
+                        ContextMenu menu = new ContextMenu();
+                        MenuItem delete = new MenuItem("Eliminar");
+                        delete.setId(serie.getTitulo());
+                        delete.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                menu.hide();
+                                MenuItem clicked = (MenuItem) event.getSource();
+                                String toDelete = clicked.getId();
+                                for (Serie serie : series) {
+                                    if(serie.getTitulo().equals(toDelete)) {
+                                        series.remove(serie);                                
+                                        populateImagenes();
+                                        showDetallesMes(mesActual);
+                                    }
+                                }
+                                event.consume();
+                            }
+                        });
+
+                        menu.getItems().add(delete);
+
+
+                        poster.setId(serie.getTitulo());
+                        poster.setImage(image);
+                        // poster.setPreserveRatio(true);
+                        poster.setFitWidth(210);
+                        poster.setFitHeight(300);
+                        poster.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+                            @Override
+                            public void handle(ContextMenuEvent event) {
+                                menu.show(poster, event.getScreenX(), event.getScreenY());
+                                event.consume();
+                            }                    
+                        });
+                        imagenes.getChildren().add(poster);
+                    } catch (IllegalArgumentException e) {
+                        Label serieSinI = new Label(serie.getTitulo());   
+                        imagenes.getChildren().add(new Label(serie.getTitulo()));
+                    }
+                }
             }
-        }
+        });
+        
     }
     
     public void showDetallesMes(Mes mes) {
-        System.out.println(mes.getNumAno() + " - " + mes.getNumMes() + "(" + mes.getDiasMes() + ")");
-        labelNombreMes.setText(mes.getNombreMes().toUpperCase());
-        labelNumMes.setText(Integer.toString(mes.getNumMes()+1));
-        labelNumAno.setText(Integer.toString(mes.getNumAno()));
-        
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, mes.getNumMes());
-        cal.set(Calendar.YEAR, mes.getNumAno());
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        
-        int firstDay = cal.getTime().getDay();
-        if(firstDay != 0) {
-            firstDay -= 1;
-        } else {
-            firstDay = 6;
-        }        
-        int count = 1;
-        
-        for(int i=0; i<mes.getDiasMes(); i++) {
-            String caps = "";
-            for (Serie serie : series) {
-                Map<Integer, String> capitulosMes = serie.getCapitulosMes(mes.getNumAno(), mes.getNumMes()+1);
-                if(capitulosMes.get(count) != null) {
-                    for (Map.Entry<Integer, String> entry : capitulosMes.entrySet()) {
-                        if(entry.getKey() == count) {
-                            caps += serie.getTitulo() + ": " + entry.getValue();
-                            caps += "\n";
+        // System.out.println(mes.getNumAno() + " - " + mes.getNumMes() + "(" + mes.getDiasMes() + ")");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                labelNombreMes.setText(mes.getNombreMes().toUpperCase());
+                labelNumMes.setText(Integer.toString(mes.getNumMes()+1));
+                labelNumAno.setText(Integer.toString(mes.getNumAno()));
+
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.MONTH, mes.getNumMes());
+                cal.set(Calendar.YEAR, mes.getNumAno());
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+
+                int firstDay = cal.getTime().getDay();
+                if(firstDay != 0) {
+                    firstDay -= 1;
+                } else {
+                    firstDay = 6;
+                }        
+                int count = 1;
+
+                for(int i=0; i<mes.getDiasMes(); i++) {
+                    String caps = "";
+                    for (Serie serie : series) {
+                        Map<Integer, String> capitulosMes = serie.getCapitulosMes(mes.getNumAno(), mes.getNumMes()+1);
+                        if(capitulosMes.get(count) != null) {
+                            for (Map.Entry<Integer, String> entry : capitulosMes.entrySet()) {
+                                if(entry.getKey() == count) {
+                                    caps += serie.getTitulo() + ": " + entry.getValue();
+                                    caps += "\n";
+                                }
+                            }                    
                         }
-                    }                    
+                    }
+                    diasMes.get(firstDay + i).setText(Integer.toString(count++) + "\n\n" + caps);
                 }
             }
-            diasMes.get(firstDay + i).setText(Integer.toString(count++) + "\n\n" + caps);
-        }
+        });
     }
     
     @FXML

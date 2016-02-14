@@ -95,7 +95,15 @@ public class NewSerieController {
                         @Override
                         public void handle(ActionEvent event) {
                             Button clickedButton = (Button) event.getSource();
-                            mainController.getSeries().add(new Serie(clickedButton.getId()));
+                            Serie toAdd = new Serie(clickedButton.getId());
+                            boolean possible = true;
+                            for (Serie serie : mainController.getSeries()) {
+                                if(serie.equals(toAdd))
+                                    possible = false;
+                            }
+                            if(possible)
+                                mainController.getSeries().add(toAdd);
+                            
                             try {
                                 mainController.populateImagenes();
                                 mainController.showDetallesMes(mainController.getMesActual());

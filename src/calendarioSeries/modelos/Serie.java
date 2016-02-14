@@ -35,6 +35,7 @@ public class Serie {
     private int temporadas;
     private JSONObject json;
     private String urlImagen;
+    private String year;
     
     private StringProperty tituloProperty;
     
@@ -50,6 +51,7 @@ public class Serie {
                 this.titulo = json.getString("Title");
                 this.tituloProperty = new SimpleStringProperty(titulo);
                 this.urlImagen = json.getString("Poster");
+                this.year = json.getString("Year");
 
                 boolean next = true;
                 int temporada = 1;
@@ -143,6 +145,10 @@ public class Serie {
     public String getUrlImagen() {
         return urlImagen;
     }
+    
+    public String getYear() {
+        return this.year;
+    }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
@@ -167,6 +173,17 @@ public class Serie {
 
     public void setTemporadas(int temporadas) {
         this.temporadas = temporadas;
+    }
+    
+    public boolean equals(Serie serie) {
+        if(this.titulo.equals(serie.getTitulo())) {
+            if(this.year.equals(serie.getYear())) {
+                if(this.temporadas == serie.getTemporadas()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
 
