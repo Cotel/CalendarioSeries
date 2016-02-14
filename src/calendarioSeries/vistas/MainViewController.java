@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,9 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -64,7 +62,7 @@ public class MainViewController {
         //this.series.add(new Serie("narcos"));
         //this.series.add(new Serie("the flash"));
         //this.series.add(new Serie("game of thrones"));
-        //this.series.add(new Serie("house of cards"));
+        this.series.add(new Serie("house of cards"));
         //this.series.add(new Serie("the magicians"));
     }
     
@@ -106,7 +104,7 @@ public class MainViewController {
         }
     }
     
-    private void showDetallesMes(Mes mes) {
+    public void showDetallesMes(Mes mes) {
         System.out.println(mes.getNumAno() + " - " + mes.getNumMes() + "(" + mes.getDiasMes() + ")");
         labelNombreMes.setText(mes.getNombreMes().toUpperCase());
         labelNumMes.setText(Integer.toString(mes.getNumMes()+1));
@@ -126,7 +124,19 @@ public class MainViewController {
         int count = 1;
         
         for(int i=0; i<mes.getDiasMes(); i++) {
-            diasMes.get(firstDay + i).setText(Integer.toString(count++));
+            String caps = "";
+            for (Serie serie : series) {
+                Map<Integer, String> capitulosMes = serie.getCapitulosMes(mes.getNumAno(), mes.getNumMes()+1);
+                if(capitulosMes.get(count) != null) {
+                    for (Map.Entry<Integer, String> entry : capitulosMes.entrySet()) {
+                        if(entry.getKey() == count) {
+                            caps += serie.getTitulo() + ": " + entry.getValue();
+                            caps += "\n";
+                        }
+                    }                    
+                }
+            }
+            diasMes.get(firstDay + i).setText(Integer.toString(count++) + "\n\n" + caps);
         }
     }
     
@@ -144,6 +154,8 @@ public class MainViewController {
             Stage stage = new Stage();
             stage.setTitle("Añade una nueva serie");
             stage.setScene(new Scene(root));
+            stage.setMinHeight(650);
+            stage.setMinWidth(600);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -173,6 +185,10 @@ public class MainViewController {
         }
         showDetallesMes(mesActual);
         event.consume();
+    }
+    
+    public Mes getMesActual() {
+        return mesActual;
     }
     
     public void setMainApp(MainApp mainApp) {

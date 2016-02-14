@@ -75,9 +75,13 @@ public class Serie {
                             "&Season=" + (i+1) + "&r=json"));
                     JSONArray listaCaps = aux.getJSONArray("Episodes");
                     for(int j=0; j<capitulos[i].length; j++) {
-                        capitulos[i][j] = i+1 + "x" + (j+1) + " " +
-                                listaCaps.getJSONObject(j).getString("Title") + " " +
-                                listaCaps.getJSONObject(j).getString("Released");
+                        try {
+                            capitulos[i][j] = //i+1 + "x" + (j+1) + " " +
+                                    listaCaps.getJSONObject(j).getString("Title") + " " +
+                                    listaCaps.getJSONObject(j).getString("Released");
+                        } catch (JSONException e) {
+                            capitulos[i][j] = "N/A";
+                        }
                     }
                 }
             }
@@ -86,14 +90,21 @@ public class Serie {
         }        
     }
     
-    public Map<String, String> getCapitulosMes(int ano, int mes) {
-        Map<String, String> capitulosMes = new HashMap<String, String>();
+    public Map<Integer, String> getCapitulosMes(int ano, int mes) {
+        Map<Integer, String> capitulosMes = new HashMap<Integer, String>();
         
         for(int i=0; i<capitulos[temporadas-1].length; i++) {
-            String fecha = capitulos[temporadas-1][i].substring(capitulos[temporadas-1][i].lastIndexOf(' ') + 1);
-            String[] detalle = fecha.split("-");
-            if(Integer.parseInt(detalle[0]) == ano && Integer.parseInt(detalle[1]) == mes) {
-                capitulosMes.put(detalle[2], capitulos[temporadas-1][i].substring(0, capitulos[temporadas-1][i].lastIndexOf(' ')));
+            if(capitulos[temporadas-1][i] != null) {
+                String fecha = capitulos[temporadas-1][i].substring(capitulos[temporadas-1][i].lastIndexOf(' ') + 1);
+                if(!fecha.equals("N/A")) {
+                    String[] detalle = fecha.split("-");
+                    if (Integer.parseInt(detalle[0]) == ano && Integer.parseInt(detalle[1]) == mes && capitulosMes.containsKey(Integer.parseInt(detalle[2]))) {
+                        String existing = capitulosMes.get(Integer.parseInt(detalle[2]));
+                        capitulosMes.put(Integer.parseInt(detalle[2]), existing + "\n" + capitulos[temporadas-1][i].substring(0, capitulos[temporadas-1][i].lastIndexOf(' ')));
+                    } else if(Integer.parseInt(detalle[0]) == ano && Integer.parseInt(detalle[1]) == mes) {
+                        capitulosMes.put(Integer.parseInt(detalle[2]), capitulos[temporadas-1][i].substring(0, capitulos[temporadas-1][i].lastIndexOf(' ')));
+                    }
+                }
             }
         }
         
@@ -161,8 +172,8 @@ public class Serie {
 
     
     public static void main(String[] args) {
-        Serie arrow = new Serie("arrow");
-        System.out.println(arrow.getCapitulosMes(2016, 02));
+        Serie arrow = new Serie("house of cards");
+        System.out.println(arrow.getCapitulosMes(2016, 03));
         
     }
     

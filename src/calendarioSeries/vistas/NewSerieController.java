@@ -66,7 +66,7 @@ public class NewSerieController {
                 for(int i=0; i<res.length(); i++) {
                     JSONObject resActual = new JSONObject(res.get(i).toString());
                     HBox resultadoActual = new HBox(50);                    
-                    resultadoActual.setMaxWidth(resultados.getWidth());
+                    resultadoActual.setMaxWidth(Double.MAX_VALUE);
                     resultadoActual.setAlignment(Pos.CENTER_LEFT);
                     
                     try {
@@ -89,14 +89,22 @@ public class NewSerieController {
                     Button addActual = new Button("+");
                     addActual.setId(resActual.getString("Title"));
                     addActual.setAlignment(Pos.CENTER);
+                    addActual.setMinWidth(30);
+                    addActual.setPrefWidth(30);
                     addActual.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
                             Button clickedButton = (Button) event.getSource();
                             mainController.getSeries().add(new Serie(clickedButton.getId()));
-                            mainController.populateImagenes();
-                            Stage stage = (Stage) clickedButton.getScene().getWindow();
-                            stage.close();                            
+                            try {
+                                mainController.populateImagenes();
+                                mainController.showDetallesMes(mainController.getMesActual());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                Stage stage = (Stage) clickedButton.getScene().getWindow();
+                                stage.close();
+                            }
                         }
                     });
                     resultadoActual.getChildren().add(addActual);

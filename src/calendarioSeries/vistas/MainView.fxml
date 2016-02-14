@@ -21,8 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import java.util.ArrayList?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1150.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
    <center>
       <TabPane prefHeight="775.0" prefWidth="1145.0">
          <tabs>
@@ -43,7 +42,7 @@
                <content>
                   <AnchorPane id="AnchorPane" prefHeight="618.0" prefWidth="662.0">
                      <children>
-                        <SplitPane dividerPositions="0.7848275862068965" layoutX="44.0" layoutY="6.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane layoutX="44.0" layoutY="6.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
@@ -96,12 +95,13 @@
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
                                                 <Label alignment="CENTER" text="LUNES" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -419,6 +419,22 @@
                                                       <Insets left="5.0" top="5.0" />
                                                    </GridPane.margin>
                                                 </Label>
+                                                <Label fx:id="label35" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                                                    <font>
+                                                        <Font size="15.0" />
+                                                    </font>
+                                                    <GridPane.margin>
+                                                        <Insets left="5.0" top="5.0" />
+                                                    </GridPane.margin>
+                                                </Label>
+                                                <Label fx:id="label36" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                                                    <font>
+                                                        <Font size="15.0" />
+                                                    </font>
+                                                    <GridPane.margin>
+                                                        <Insets left="5.0" top="5.0" />
+                                                    </GridPane.margin>
+                                                </Label>  
                                                 
                                                       <fx:define>
                                                     <ArrayList fx:id="diasMes">
@@ -457,15 +473,17 @@
                                                         <fx:reference source="label32" />
                                                         <fx:reference source="label33" />
                                                         <fx:reference source="label34" />
+                                                        <fx:reference source="label35" />
+                                                        <fx:reference source="label36" />
                                                     </ArrayList>                                      
-                                                </fx:define>                              
+                                                </fx:define>
+                                                                            
                                              </children>
                                           </GridPane>
                                        </children>
                                     </VBox>
                                  </children>
                               </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
                           </items>
                         </SplitPane>
                      </children>
