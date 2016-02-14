@@ -8,11 +8,16 @@ package calendarioSeries.vistas;
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
 import calendarioSeries.modelos.Serie;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 /**
  *
@@ -62,12 +68,22 @@ public class MainViewController {
     public MainViewController() {
         mesActual = new Mes();
         this.series = new ArrayList<>();
-        this.series.add(new Serie("arrow"));
-        //this.series.add(new Serie("narcos"));
-        //this.series.add(new Serie("the flash"));
-        //this.series.add(new Serie("game of thrones"));
-        this.series.add(new Serie("house of cards"));
-        //this.series.add(new Serie("the magicians"));
+        try {
+            File datos = new File("seriesUsuario.json");
+            Scanner in = new Scanner(datos);
+            String toJson = "";
+            while(in.hasNext()) {
+                toJson += in.nextLine();
+            }
+            JSONObject sesion = new JSONObject(toJson);
+            Set<String> ids = sesion.keySet();
+            for (String id : ids) {
+                this.series.add(new Serie(id));
+            }
+            
+        } catch (FileNotFoundException e) {
+                        
+        }
     }
     
     @FXML
@@ -101,7 +117,7 @@ public class MainViewController {
                         ImageView poster = new ImageView();
                         ContextMenu menu = new ContextMenu();
                         MenuItem delete = new MenuItem("Eliminar");
-                        delete.setId(serie.getTitulo());
+                        delete.setId(serie.getId());
                         delete.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
@@ -109,7 +125,7 @@ public class MainViewController {
                                 MenuItem clicked = (MenuItem) event.getSource();
                                 String toDelete = clicked.getId();
                                 for (Serie serie : series) {
-                                    if(serie.getTitulo().equals(toDelete)) {
+                                    if(serie.getId().equals(toDelete)) {
                                         series.remove(serie);                                
                                         populateImagenes();
                                         showDetallesMes(mesActual);
@@ -124,6 +140,7 @@ public class MainViewController {
 
                         poster.setId(serie.getTitulo());
                         poster.setImage(image);
+                        poster.setCache(true);
                         // poster.setPreserveRatio(true);
                         poster.setFitWidth(210);
                         poster.setFitHeight(300);
@@ -138,12 +155,31 @@ public class MainViewController {
                     } catch (IllegalArgumentException e) {
                         Label serieSinI = new Label(serie.getTitulo());   
                         imagenes.getChildren().add(new Label(serie.getTitulo()));
+                    } finally {
+                        rellenarArchivo();
                     }
                 }
             }
         });
         
     }
+    
+    private void rellenarArchivo() {
+        try {
+            File file = new File("seriesUsuario.json");
+            PrintWriter pw = new PrintWriter(file);
+            JSONObject array = new JSONObject();
+            int count = 0;
+            for (Serie serie : series) {  
+                array.put(serie.getId(), serie.getTitulo());
+            }
+            pw.println(array.toString());
+            pw.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+            
     
     public void showDetallesMes(Mes mes) {
         // System.out.println(mes.getNumAno() + " - " + mes.getNumMes() + "(" + mes.getDiasMes() + ")");

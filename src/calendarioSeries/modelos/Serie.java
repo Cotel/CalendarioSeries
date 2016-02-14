@@ -31,6 +31,7 @@ public class Serie {
     private static final String BASE = "https://www.omdbapi.com/?";
     
     private String titulo;
+    private String id;
     private String[][] capitulos;
     private int temporadas;
     private JSONObject json;
@@ -39,11 +40,10 @@ public class Serie {
     
     private StringProperty tituloProperty;
     
-    public Serie(String titulo) {
-        titulo = titulo.replaceAll(" ", "+");
-        titulo = titulo.toLowerCase();
+    public Serie(String id) {
+        this.id = id;
         try {
-            String toJson = readUrl(BASE + "t=" + titulo +
+            String toJson = readUrl(BASE + "i=" + id +
                     "&type=series" + "&plot=short" + "&r=json");
             this.json = new JSONObject(toJson);
             
@@ -58,7 +58,7 @@ public class Serie {
                 int caps = 0;
                 JSONObject aux;
                 while(next) {
-                    aux = new JSONObject(readUrl(BASE + "t=" + titulo +
+                    aux = new JSONObject(readUrl(BASE + "i=" + id +
                             "&Season=" + temporada + "&r=json"));
                     if(!aux.getString("Response").equals("False")) {
                         temporada++;
@@ -73,7 +73,7 @@ public class Serie {
                 this.temporadas = temporada;
                 this.capitulos = new String[temporadas][caps];
                 for(int i=0; i<capitulos.length; i++) {
-                    aux = new JSONObject(readUrl(BASE + "t=" + titulo +
+                    aux = new JSONObject(readUrl(BASE + "i=" + id +
                             "&Season=" + (i+1) + "&r=json"));
                     JSONArray listaCaps = aux.getJSONArray("Episodes");
                     for(int j=0; j<capitulos[i].length; j++) {
@@ -149,6 +149,10 @@ public class Serie {
     public String getYear() {
         return this.year;
     }
+    
+    public String getId() {
+        return this.id;
+    }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
@@ -176,10 +180,12 @@ public class Serie {
     }
     
     public boolean equals(Serie serie) {
-        if(this.titulo.equals(serie.getTitulo())) {
-            if(this.year.equals(serie.getYear())) {
-                if(this.temporadas == serie.getTemporadas()) {
-                    return true;
+        if(this.id.equals(serie.getId())) {
+            if(this.titulo.equals(serie.getTitulo())) {
+                if(this.year.equals(serie.getYear())) {
+                    if(this.temporadas == serie.getTemporadas()) {
+                        return true;
+                    }
                 }
             }
         }

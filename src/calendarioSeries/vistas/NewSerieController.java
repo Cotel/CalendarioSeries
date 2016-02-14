@@ -87,7 +87,7 @@ public class NewSerieController {
                     resultadoActual.getChildren().add(elemento);
                     
                     Button addActual = new Button("+");
-                    addActual.setId(resActual.getString("Title"));
+                    addActual.setId(resActual.getString("imdbID"));
                     addActual.setAlignment(Pos.CENTER);
                     addActual.setMinWidth(30);
                     addActual.setPrefWidth(30);
