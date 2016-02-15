@@ -8,6 +8,7 @@ package calendarioSeries.vistas;
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
 import calendarioSeries.modelos.Serie;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
@@ -59,15 +61,24 @@ public class MainViewController {
     @FXML
     private MenuItem addNew;
     @FXML
+    private MenuItem returnToMonth;
+    @FXML
     private TilePane imagenes;    
     
     private MainApp mainApp;
     private Mes mesActual;
     private List<Serie> series;
+    private int hoy;
+    private int esteMes;
+    private int esteAno;
     
     public MainViewController() {
         mesActual = new Mes();
         this.series = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        this.hoy = cal.get(Calendar.DAY_OF_MONTH);
+        this.esteMes = mesActual.getNumMes();
+        this.esteAno = mesActual.getNumAno();
         try {
             File datos = new File("seriesUsuario.json");
             Scanner in = new Scanner(datos);
@@ -186,6 +197,10 @@ public class MainViewController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                for (Label diasMe : diasMes) {
+                    diasMe.setStyle("");
+                    diasMe.setId("");
+                }
                 labelNombreMes.setText(mes.getNombreMes().toUpperCase());
                 labelNumMes.setText(Integer.toString(mes.getNumMes()+1));
                 labelNumAno.setText(Integer.toString(mes.getNumAno()));
@@ -216,7 +231,21 @@ public class MainViewController {
                             }                    
                         }
                     }
-                    diasMes.get(firstDay + i).setText(Integer.toString(count++) + "\n\n" + caps);
+                    diasMes.get(firstDay + i).setText(Integer.toString(count) + "\n\n" + caps);
+                    if(mes.getNumAno() == esteAno) {
+                        if(mes.getNumMes() == esteMes) {
+                            if(count == hoy) {                                               
+                                diasMes.get(firstDay + i).setId("hoy");
+                            } else if(count < hoy) {
+                                diasMes.get(firstDay + i).setStyle("-fx-text-fill: grey;");
+                            }
+                        } else if(mes.getNumMes() < esteMes) {
+                            diasMes.get(firstDay + i).setStyle("-fx-text-fill: grey;");
+                        }
+                    } else if(mes.getNumAno() < esteAno) {
+                        diasMes.get(firstDay + i).setStyle("-fx-text-fill: grey;");
+                    }
+                    count++;
                 }
             }
         });
@@ -242,6 +271,12 @@ public class MainViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    @FXML
+    private void handleReturnToActual(ActionEvent event) {
+        this.mesActual = new Mes();
+        showDetallesMes(mesActual);
     }
     
     @FXML

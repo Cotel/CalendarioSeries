@@ -50,7 +50,7 @@ public class NewSerieController {
     
     @FXML
     public void initialize() {
-        
+        ok.setDefaultButton(true);        
     }
     
     @FXML
@@ -81,7 +81,7 @@ public class NewSerieController {
                         System.out.println("Bad url");
                     }                    
                     
-                    Label elemento = new Label(resActual.getString("Title").concat("\t\t Ano: ").concat(resActual.getString("Year")));
+                    Label elemento = new Label(resActual.getString("Title").concat("\t\t Año: ").concat(resActual.getString("Year")));
                     elemento.setMaxWidth(Double.MAX_VALUE);
                     elemento.setMaxHeight(Double.MAX_VALUE);                    
                     resultadoActual.getChildren().add(elemento);
