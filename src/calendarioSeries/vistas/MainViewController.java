@@ -8,7 +8,6 @@ package calendarioSeries.vistas;
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
 import calendarioSeries.modelos.Serie;
-import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,8 +34,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
@@ -65,7 +65,7 @@ public class MainViewController {
     @FXML
     private TilePane imagenes;    
     
-    private MainApp mainApp;
+    public MainApp mainApp;
     private Mes mesActual;
     private List<Serie> series;
     private int hoy;
@@ -164,8 +164,50 @@ public class MainViewController {
                         });
                         imagenes.getChildren().add(poster);
                     } catch (IllegalArgumentException e) {
-                        Label serieSinI = new Label(serie.getTitulo());   
-                        imagenes.getChildren().add(new Label(serie.getTitulo()));
+                        Image image = new Image("file:resources/no-image.png");
+                        ImageView poster = new ImageView();
+                        ContextMenu menu = new ContextMenu();
+                        MenuItem delete = new MenuItem("Eliminar");
+                        delete.setId(serie.getId());
+                        delete.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                menu.hide();
+                                MenuItem clicked = (MenuItem) event.getSource();
+                                String toDelete = clicked.getId();
+                                for (Serie serie : series) {
+                                    if(serie.getId().equals(toDelete)) {
+                                        series.remove(serie);                                
+                                        populateImagenes();
+                                        showDetallesMes(mesActual);
+                                    }
+                                }
+                                event.consume();
+                            }
+                        });
+
+                        menu.getItems().add(delete);
+
+
+                        poster.setId(serie.getTitulo());
+                        poster.setImage(image);
+                        //poster.setCache(true);
+                        //poster.setPreserveRatio(true);
+                        poster.setFitWidth(210);
+                        poster.setFitHeight(300);
+                        poster.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+                            @Override
+                            public void handle(ContextMenuEvent event) {
+                                menu.show(poster, event.getScreenX(), event.getScreenY());
+                                event.consume();
+                            }                    
+                        });
+                        Text text = new Text(serie.getTitulo());
+                        text.getStyleClass().add("label");
+                        StackPane pane = new StackPane();
+                        pane.getChildren().addAll(poster, text);
+                        
+                        imagenes.getChildren().add(pane);
                     } finally {
                         rellenarArchivo();
                     }
@@ -225,8 +267,12 @@ public class MainViewController {
                         if(capitulosMes.get(count) != null) {
                             for (Map.Entry<Integer, String> entry : capitulosMes.entrySet()) {
                                 if(entry.getKey() == count) {
-                                    caps += serie.getTitulo() + ": " + entry.getValue();
-                                    caps += "\n";
+                                    if(entry.getValue().length() >= 30) {
+                                        caps += serie.getTitulo() + ": +2 caps";
+                                    } else {
+                                        caps += serie.getTitulo() + ": " + entry.getValue();
+                                        caps += "\n";
+                                    }
                                 }
                             }                    
                         }

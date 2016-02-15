@@ -26,7 +26,7 @@
          <tabs>
             <Tab closable="false" text="Panel">
                <content>
-                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" minViewportWidth="1000.0" minWidth="-Infinity" prefHeight="744.0" prefWidth="1150.0">
                      <content>
                         <TilePane fx:id="imagenes" hgap="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="10.0">
                            <padding>

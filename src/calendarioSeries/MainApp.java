@@ -25,6 +25,7 @@ public class MainApp extends Application {
     
     private Stage primaryStage;
     private BorderPane rootLayout;
+    public Scene scene;
     
     private ObservableList<Serie> series = FXCollections.observableArrayList();
     
@@ -49,7 +50,7 @@ public class MainApp extends Application {
             MainViewController controller = loader.getController();
             controller.setMainApp(this);
             
-            Scene scene = new Scene(rootLayout);
+            this.scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.setMinHeight(810);
             primaryStage.setMinWidth(1150);

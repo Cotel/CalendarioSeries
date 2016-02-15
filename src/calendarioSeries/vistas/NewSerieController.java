@@ -10,15 +10,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -88,6 +92,8 @@ public class NewSerieController {
                     
                     Button addActual = new Button("+");
                     addActual.setId(resActual.getString("imdbID"));
+                    addActual.getStyleClass().add("button-small");
+                    changeStyleOnHover(addActual);
                     addActual.setAlignment(Pos.CENTER);
                     addActual.setMinWidth(30);
                     addActual.setPrefWidth(30);
@@ -95,24 +101,36 @@ public class NewSerieController {
                         @Override
                         public void handle(ActionEvent event) {
                             Button clickedButton = (Button) event.getSource();
-                            Serie toAdd = new Serie(clickedButton.getId());
-                            boolean possible = true;
-                            for (Serie serie : mainController.getSeries()) {
-                                if(serie.equals(toAdd))
-                                    possible = false;
-                            }
-                            if(possible)
-                                mainController.getSeries().add(toAdd);
-                            
-                            try {
-                                mainController.populateImagenes();
-                                mainController.showDetallesMes(mainController.getMesActual());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            } finally {
-                                Stage stage = (Stage) clickedButton.getScene().getWindow();
-                                stage.close();
-                            }
+                            Stage stage = (Stage) clickedButton.getScene().getWindow();
+                            Task task = new Task() {
+                                @Override
+                                protected Object call() throws Exception {
+                                    mainController.mainApp.scene.setCursor(Cursor.WAIT);                                    
+                                    Serie toAdd = new Serie(clickedButton.getId());
+                                    boolean possible = true;
+                                    for (Serie serie : mainController.getSeries()) {
+                                        if(serie.equals(toAdd))
+                                            possible = false;
+                                    }
+                                    if(possible)
+                                        mainController.getSeries().add(toAdd);
+
+                                    try {
+                                        mainController.populateImagenes();
+                                        mainController.showDetallesMes(mainController.getMesActual());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        mainController.mainApp.scene.setCursor(Cursor.DEFAULT);                                    
+                                        
+                                        return mainController.getSeries();
+                                    }                                    
+                                }                                
+                            };
+                            Thread th = new Thread(task);
+                            th.setDaemon(true);
+                            th.start();
+                            stage.close();
                         }
                     });
                     resultadoActual.getChildren().add(addActual);
@@ -126,6 +144,21 @@ public class NewSerieController {
             e.printStackTrace();
         }
         
+    }
+    
+    private void changeStyleOnHover(Node node) {
+        node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                node.setStyle("-fx-background-color: derive(#0096C9, 30%);");
+            }
+        });
+        node.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                node.setStyle("-fx-background-color: #0096C9");
+            }            
+        });
     }
     
     private String readUrl(String stringUrl) {

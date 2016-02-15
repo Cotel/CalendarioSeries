@@ -71,20 +71,24 @@ public class Serie {
                 }
 
                 this.temporadas = temporada;
-                this.capitulos = new String[temporadas][caps];
-                for(int i=0; i<capitulos.length; i++) {
-                    aux = new JSONObject(readUrl(BASE + "i=" + id +
-                            "&Season=" + (i+1) + "&r=json"));
-                    JSONArray listaCaps = aux.getJSONArray("Episodes");
-                    for(int j=0; j<capitulos[i].length; j++) {
-                        try {
-                            capitulos[i][j] = //i+1 + "x" + (j+1) + " " +
-                                    listaCaps.getJSONObject(j).getString("Title") + " " +
-                                    listaCaps.getJSONObject(j).getString("Released");
-                        } catch (JSONException e) {
-                            capitulos[i][j] = "N/A";
+                if(this.temporadas != 0) {
+                    this.capitulos = new String[temporadas][caps];
+                    for(int i=0; i<capitulos.length; i++) {
+                        aux = new JSONObject(readUrl(BASE + "i=" + id +
+                                "&Season=" + (i+1) + "&r=json"));
+                        JSONArray listaCaps = aux.getJSONArray("Episodes");
+                        for(int j=0; j<capitulos[i].length; j++) {
+                            try {
+                                capitulos[i][j] = //i+1 + "x" + (j+1) + " " +
+                                        listaCaps.getJSONObject(j).getString("Title") + " " +
+                                        listaCaps.getJSONObject(j).getString("Released");
+                            } catch (JSONException e) {
+                                capitulos[i][j] = "N/A";
+                            }
                         }
                     }
+                } else {
+                    this.capitulos = null;
                 }
             }
         } catch (JSONException ex) {
@@ -94,6 +98,10 @@ public class Serie {
     
     public Map<Integer, String> getCapitulosMes(int ano, int mes) {
         Map<Integer, String> capitulosMes = new HashMap<Integer, String>();
+        
+        if(this.temporadas == 0) {
+            return capitulosMes;
+        }
         
         for(int i=0; i<capitulos[temporadas-1].length; i++) {
             if(capitulos[temporadas-1][i] != null) {
