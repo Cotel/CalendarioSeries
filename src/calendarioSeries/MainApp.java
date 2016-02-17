@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class MainApp extends Application {
     
-    private Stage primaryStage;
+    public Stage primaryStage;
     private BorderPane rootLayout;
     public Scene scene;
     

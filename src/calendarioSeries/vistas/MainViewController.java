@@ -34,6 +34,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
@@ -71,6 +72,9 @@ public class MainViewController {
     private int hoy;
     private int esteMes;
     private int esteAno;
+    
+    public static Serie serieToPass;
+    public static Scene sceneToPass;
     
     public MainViewController() {
         mesActual = new Mes();
@@ -155,6 +159,27 @@ public class MainViewController {
                         // poster.setPreserveRatio(true);
                         poster.setFitWidth(210);
                         poster.setFitHeight(300);
+                        poster.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                try {
+                                    serieToPass = serie;
+                                    sceneToPass = mainApp.scene;
+                                    
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailsSerieController.fxml"));                                    
+                                    Parent root = loader.load();
+                                    DetailsSerieController controller = loader.getController();                                    
+                                    
+                                    Scene scene = new Scene(root);
+                                    mainApp.primaryStage.setScene(scene);
+                                    mainApp.primaryStage.show();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                
+                            }
+                            
+                        });
                         poster.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
                             @Override
                             public void handle(ContextMenuEvent event) {

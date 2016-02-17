@@ -1,0 +1,89 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package calendarioSeries.vistas;
+
+import calendarioSeries.modelos.Serie;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+/**
+ * FXML Controller class
+ *
+ * @author Cotel
+ */
+public class DetailsSerieController {
+    
+    @FXML
+    private Label title;
+    @FXML
+    private Label description;
+    @FXML
+    private ImageView poster;
+    @FXML
+    private ListView temporadas;
+    @FXML
+    private ListView capitulos;
+    
+    private Serie serie;
+    private Scene anterior;
+    
+    public DetailsSerieController() {
+        this.serie = MainViewController.serieToPass;
+        this.anterior = MainViewController.sceneToPass;
+    }
+    
+    /**
+     * Initializes the controller class.
+     */
+    @FXML
+    public void initialize() {
+        this.title.setText(serie.getTitulo());
+        this.description.setText(serie.getDescription());
+        Image image = new Image(serie.getUrlImagen());
+        this.poster.setImage(image);
+        populateLists();
+    }
+    
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+    
+    public void setAnteriorScene(Scene scene) {
+        this.anterior = scene;
+    }
+    
+    private void populateLists() {
+        List<String> temps = new ArrayList<String>();
+        for(int i=0; i<serie.getTemporadas(); i++) {
+            temps.add("Temporada " + (i+1));
+        }
+        ObservableList<String> observableList = FXCollections.observableArrayList(temps);
+        temporadas.setItems(observableList);
+        temporadas.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                List<String> caps = new ArrayList<>();
+                for(int i=0; i<serie.getCapitulos()[newValue.intValue()].length; i++) {
+                    caps.add(serie.getCapitulos()[newValue.intValue()][i]);
+                }
+                ObservableList<String> thisCaps = FXCollections.observableArrayList(caps);
+                capitulos.setItems(thisCaps);
+            }
+            
+        });
+    }
+    
+}

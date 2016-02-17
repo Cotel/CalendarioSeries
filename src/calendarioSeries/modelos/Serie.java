@@ -32,6 +32,7 @@ public class Serie {
     
     private String titulo;
     private String id;
+    private String description;
     private String[][] capitulos;
     private int temporadas;
     private JSONObject json;
@@ -49,6 +50,7 @@ public class Serie {
             
             if(this.json.getString("Response").equals("True")) {
                 this.titulo = json.getString("Title");
+                this.description = json.getString("Plot");
                 this.tituloProperty = new SimpleStringProperty(titulo);
                 this.urlImagen = json.getString("Poster");
                 this.year = json.getString("Year");
@@ -156,6 +158,10 @@ public class Serie {
     
     public String getYear() {
         return this.year;
+    }
+    
+    public String getDescription() {
+        return this.description;
     }
     
     public String getId() {

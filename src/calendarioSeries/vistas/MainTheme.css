@@ -214,6 +214,7 @@ and open the template in the editor.
 }
 
 .image-view:hover {
+    -fx-cursor: hand;
     -fx-effect: dropshadow(one-pass-box, #0096C9, 10, 0.75, 0, 0);
 }
 
