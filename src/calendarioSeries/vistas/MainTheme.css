@@ -12,6 +12,46 @@ and open the template in the editor.
     -fx-background-color: #1d1d1d;
 }
 
+.bordered {
+    -fx-border-color: black;
+    -fx-background-size: 2;
+}
+
+.shadowed {
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}
+
+.list-view {
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI Light";
+}
+
+.list-cell {
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
+.list-cell:even {
+    -fx-background-color: derive(#1d1d1d, 5%);
+}
+
+.list-cell:filled:hover {
+    -fx-cursor: hand;
+    -fx-background-color: derive(#0096C9, 30%);
+}
+
+.list-cell:selected {
+    -fx-background-color: #0096C9;
+}
+
+.list-view:focused {
+    -fx-background-insets: 0, 0, 1, 2;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
 .tab-pane {
     -fx-background-color: #1d1d1d;
     -fx-base: #1d1d1d;

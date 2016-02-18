@@ -34,6 +34,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
@@ -159,33 +160,36 @@ public class MainViewController {
                         // poster.setPreserveRatio(true);
                         poster.setFitWidth(210);
                         poster.setFitHeight(300);
-                        poster.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent event) {
-                                try {
-                                    serieToPass = serie;
-                                    sceneToPass = mainApp.scene;
-                                    
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailsSerieController.fxml"));                                    
-                                    Parent root = loader.load();
-                                    DetailsSerieController controller = loader.getController();                                    
-                                    
-                                    Scene scene = new Scene(root);
-                                    mainApp.primaryStage.setScene(scene);
-                                    mainApp.primaryStage.show();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                
-                            }
-                            
-                        });
                         poster.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
                             @Override
                             public void handle(ContextMenuEvent event) {
                                 menu.show(poster, event.getScreenX(), event.getScreenY());
                                 event.consume();
                             }                    
+                        });
+                        poster.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                if(event.getButton() == MouseButton.PRIMARY) {
+                                    try {
+                                        serieToPass = serie;
+                                        sceneToPass = mainApp.scene;
+
+                                        FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailsSerieController.fxml"));                                    
+                                        Parent root = loader.load();
+                                        DetailsSerieController controller = loader.getController();
+                                        controller.setMainApp(mainApp);
+
+                                        Scene scene = new Scene(root);
+                                        mainApp.primaryStage.setScene(scene);
+                                        mainApp.primaryStage.show();
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+
+                                }
+                            }
+                            
                         });
                         imagenes.getChildren().add(poster);
                     } catch (IllegalArgumentException e) {
