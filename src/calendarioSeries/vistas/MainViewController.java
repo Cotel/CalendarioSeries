@@ -40,6 +40,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -94,6 +95,12 @@ public class MainViewController {
             JSONObject sesion = new JSONObject(toJson);
             Set<String> ids = sesion.keySet();
             for (String id : ids) {
+                Serie aux = new Serie(id);
+                JSONArray lastVisto = sesion.getJSONArray(id);
+                String lastVistoString = lastVisto.getString(1);
+                System.out.println(lastVisto.get(1));
+                aux.setVistosHasta(Integer.parseInt(lastVistoString.substring(0, lastVistoString.lastIndexOf('x'))),
+                        Integer.parseInt(lastVistoString.substring(lastVistoString.lastIndexOf('x')+1, lastVistoString.length())));
                 this.series.add(new Serie(id));
             }
             
@@ -193,7 +200,7 @@ public class MainViewController {
                         });
                         imagenes.getChildren().add(poster);
                     } catch (IllegalArgumentException e) {
-                        Image image = new Image("file:resources/no-image.png");
+                        Image image = new Image("file:src/calendarioSeries/resources/no-image.png");
                         ImageView poster = new ImageView();
                         ContextMenu menu = new ContextMenu();
                         MenuItem delete = new MenuItem("Eliminar");
@@ -252,11 +259,15 @@ public class MainViewController {
             PrintWriter pw = new PrintWriter(file);
             JSONObject array = new JSONObject();
             int count = 0;
-            for (Serie serie : series) {  
-                array.put(serie.getId(), serie.getTitulo());
+            for (Serie serie : series) {
+                JSONArray auxi = new JSONArray();
+                auxi.put(0, serie.getTitulo());
+                auxi.put(1, serie.getLastVisto());
+                array.put(serie.getId(), auxi);
             }
             pw.println(array.toString());
             pw.flush();
+            
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

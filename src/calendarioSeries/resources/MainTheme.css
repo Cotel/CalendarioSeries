@@ -9,8 +9,8 @@ and open the template in the editor.
 */
 
 @font-face {
-    font-family: AnonymousPro;
-    src: url("AnonymousPro-Regular.ttf");
+    font-family: Hack Regular;
+    src: url("Hack-Regular.ttf");
 }
 
 .background {
@@ -33,7 +33,7 @@ and open the template in the editor.
 }
 
 .list-cell {
-    -fx-font-family: "AnonymousPro";
+    -fx-font-family: "Hack Regular";
     -fx-background-color: #1d1d1d;
     -fx-text-fill: white;
 }

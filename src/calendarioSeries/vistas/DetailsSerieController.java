@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -96,15 +97,15 @@ public class DetailsSerieController {
                 List<String> caps = new ArrayList<>();
                 for(int i=0; i<serie.getCapitulos()[newValue.intValue()].length; i++) {
                     String aux = serie.getCapitulos()[newValue.intValue()][i];
-                    String numCap = (newValue.intValue()+1)+"x"+(i+1);
+                    int numCap = i+1;
                     String nomCap = aux.substring(0, aux.lastIndexOf(' '));
                     String fecCap = aux.substring(aux.lastIndexOf(' '), aux.length());
-                    String res = "%-15s %-50s %s";
-                    List<String> args = new ArrayList<String>();
+                    String res = "%02d\t\t %-50s %s";
+                    List<Object> args = new ArrayList<>();
                     args.add(numCap);
                     args.add(nomCap);
                     args.add(fecCap);
-                    res = String.format(res, args.toArray());                                                   // String.format solo coge 2 argumentos
+                    res = String.format(res, args.toArray());
                     caps.add(res);
                 }
                 ObservableList<String> thisCaps = FXCollections.observableArrayList(caps);

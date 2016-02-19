@@ -5,14 +5,11 @@
  */
 package calendarioSeries.modelos;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.YearMonthDV;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
-import java.time.YearMonth;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,7 +23,7 @@ import org.json.JSONObject;
  *
  * @author Cotel
  */
-public class Serie {
+public class Serie implements Serializable{
     
     private static final String BASE = "https://www.omdbapi.com/?";
     
@@ -34,6 +31,7 @@ public class Serie {
     private String id;
     private String description;
     private String[][] capitulos;
+    private boolean[][] vistos;
     private int temporadas;
     private JSONObject json;
     private String urlImagen;
@@ -75,6 +73,7 @@ public class Serie {
                 this.temporadas = temporada;
                 if(this.temporadas != 0) {
                     this.capitulos = new String[temporadas][caps];
+                    this.vistos = new boolean[temporadas][caps];
                     for(int i=0; i<capitulos.length; i++) {
                         aux = new JSONObject(readUrl(BASE + "i=" + id +
                                 "&Season=" + (i+1) + "&r=json"));
@@ -86,6 +85,8 @@ public class Serie {
                                         listaCaps.getJSONObject(j).getString("Released");
                             } catch (JSONException e) {
                                 capitulos[i][j] = "N/A";
+                            } finally {
+                                vistos[i][j] = false;
                             }
                         }
                     }
@@ -147,6 +148,33 @@ public class Serie {
         }
         return null;
     }
+    
+    public void setVistosHasta(int temporada, int cap) {
+        if(temporada-1 >= 0 && temporada-1 <= this.temporadas) {
+            for(int i=0; i<=temporada-1; i++) {
+                for(int j=0; j<this.vistos[i].length; j++) {
+                    if(i<=temporada-1 && j<=cap-1) {
+                        vistos[i][j] = true;
+                    } else {
+                        vistos[i][j] = false;
+                    }
+                }
+            }
+        }
+    }
+    
+    public String getLastVisto() {
+        String res = "0x0";
+        for(int i=0; i<this.vistos.length; i++) {
+            for(int j=0; j<this.vistos[i].length; j++) {
+                if(this.vistos[i][j] == false) {
+                    res = i+1+"x"+j+1;
+                    return res;
+                }
+            }
+        }
+        return res;
+    }
 
     public String getTitulo() {
         return titulo;
@@ -166,6 +194,10 @@ public class Serie {
     
     public String getId() {
         return this.id;
+    }
+    
+    public boolean[][] getVistos() {
+        return this.vistos;
     }
 
     public void setTitulo(String titulo) {
@@ -209,8 +241,13 @@ public class Serie {
 
     
     public static void main(String[] args) {
-        Serie arrow = new Serie("house of cards");
-        System.out.println(arrow.getCapitulosMes(2016, 03));
+        Serie arrow = new Serie("tt3107288");
+        arrow.setVistosHasta(2, 14);
+        for(int i=0; i<arrow.getTemporadas(); i++) {
+            for(int j=0; j<arrow.getVistos()[i].length; j++) {
+                System.out.printf("%02dx%02d " + arrow.getVistos()[i][j] + "\n", i+1, j+1);
+            }
+        }
         
     }
     
