@@ -8,6 +8,11 @@ and open the template in the editor.
     Author     : Cotel
 */
 
+@font-face {
+    font-family: AnonymousPro;
+    src: url("AnonymousPro-Regular.ttf");
+}
+
 .background {
     -fx-background-color: #1d1d1d;
 }
@@ -28,6 +33,7 @@ and open the template in the editor.
 }
 
 .list-cell {
+    -fx-font-family: "AnonymousPro";
     -fx-background-color: #1d1d1d;
     -fx-text-fill: white;
 }

@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import java.util.ArrayList?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1150.0" styleClass="background" stylesheets="@MainTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1150.0" styleClass="background" stylesheets="@../resources/MainTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendarioSeries.vistas.MainViewController">
    <center>
       <TabPane prefHeight="775.0" prefWidth="1145.0">
          <tabs>

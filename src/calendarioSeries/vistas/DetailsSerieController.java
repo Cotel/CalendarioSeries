@@ -99,8 +99,12 @@ public class DetailsSerieController {
                     String numCap = (newValue.intValue()+1)+"x"+(i+1);
                     String nomCap = aux.substring(0, aux.lastIndexOf(' '));
                     String fecCap = aux.substring(aux.lastIndexOf(' '), aux.length());
-                    String res = "%-20s %-70s %50s";
-                    res = String.format(res, numCap, nomCap, fecCap);                                                   // String.format solo coge 2 argumentos
+                    String res = "%-15s %-50s %s";
+                    List<String> args = new ArrayList<String>();
+                    args.add(numCap);
+                    args.add(nomCap);
+                    args.add(fecCap);
+                    res = String.format(res, args.toArray());                                                   // String.format solo coge 2 argumentos
                     caps.add(res);
                 }
                 ObservableList<String> thisCaps = FXCollections.observableArrayList(caps);
