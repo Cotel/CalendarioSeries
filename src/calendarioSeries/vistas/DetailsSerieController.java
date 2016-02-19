@@ -99,17 +99,17 @@ public class DetailsSerieController {
                     String aux = serie.getCapitulos()[newValue.intValue()][i];
                     int numCap = i+1;
                     String nomCap = aux.substring(0, aux.lastIndexOf(' '));
-                    String fecCap = aux.substring(aux.lastIndexOf(' '), aux.length());
-                    String res = "%02d\t\t %-50s %s";
+                    //String fecCap = aux.substring(aux.lastIndexOf(' '), aux.length());
+                    String res = "%02d\t\t %-50s";
                     List<Object> args = new ArrayList<>();
                     args.add(numCap);
                     args.add(nomCap);
-                    args.add(fecCap);
                     res = String.format(res, args.toArray());
                     caps.add(res);
                 }
                 ObservableList<String> thisCaps = FXCollections.observableArrayList(caps);
                 capitulos.setItems(thisCaps);
+                capitulos.setCellFactory(CheckBoxListCell.forListView(getSelectedProperty));
             }
             
         });
