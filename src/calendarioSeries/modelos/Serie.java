@@ -168,7 +168,7 @@ public class Serie implements Serializable{
         for(int i=0; i<this.vistos.length; i++) {
             for(int j=0; j<this.vistos[i].length; j++) {
                 if(this.vistos[i][j] == false) {
-                    res = i+1+"x"+j+1;
+                    res = (i+1)+"x"+(j+1);
                     return res;
                 }
             }

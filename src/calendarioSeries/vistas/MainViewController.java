@@ -98,7 +98,7 @@ public class MainViewController {
                 Serie aux = new Serie(id);
                 JSONArray lastVisto = sesion.getJSONArray(id);
                 String lastVistoString = lastVisto.getString(1);
-                System.out.println(lastVisto.get(1));
+//                System.out.println(lastVisto.get(1));
                 aux.setVistosHasta(Integer.parseInt(lastVistoString.substring(0, lastVistoString.lastIndexOf('x'))),
                         Integer.parseInt(lastVistoString.substring(lastVistoString.lastIndexOf('x')+1, lastVistoString.length())));
                 this.series.add(new Serie(id));

@@ -9,6 +9,8 @@ import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Serie;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +18,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +27,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -53,10 +53,15 @@ public class DetailsSerieController {
     private Serie serie;
     private Scene anterior;
     private MainApp mainApp;
+//    private Date today;
+//    private Calendar cal;
     
     public DetailsSerieController() {
         this.serie = MainViewController.serieToPass;
         this.anterior = MainViewController.sceneToPass;
+//        this.cal = Calendar.getInstance();
+//        this.today = cal.getTime();
+        
     }
     
     /**
@@ -99,17 +104,39 @@ public class DetailsSerieController {
                     String aux = serie.getCapitulos()[newValue.intValue()][i];
                     int numCap = i+1;
                     String nomCap = aux.substring(0, aux.lastIndexOf(' '));
-                    //String fecCap = aux.substring(aux.lastIndexOf(' '), aux.length());
                     String res = "%02d\t\t %-50s";
                     List<Object> args = new ArrayList<>();
                     args.add(numCap);
                     args.add(nomCap);
                     res = String.format(res, args.toArray());
                     caps.add(res);
+                    
+//                    final int Capactual = i;
+//                    final int Temactual = newValue.intValue();
+//                    capitulos.setCellFactory(CheckBoxListCell.forListView(new Callback<String, ObservableValue<Boolean>>() {
+//                        @Override
+//                        public ObservableValue<Boolean> call(String param) {
+//                            BooleanProperty observable = new SimpleBooleanProperty(serie.getVistos()[newValue.intValue()][Capactual]);
+//                            observable.addListener(new ChangeListener<Boolean>() {
+//                                @Override
+//                                public void changed(ObservableValue<? extends Boolean> obs, Boolean oldValue, Boolean newValue) {
+//                                    int capSelected = capitulos.getSelectionModel().getSelectedIndex();
+//                                    if(newValue == true) {
+//                                        serie.setVistosHasta(Temactual, capSelected);
+//                                    } else if(newValue == false) {
+//                                        String[] aux = serie.getLastVisto().split("x");
+//                                        serie.setVistosHasta(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]));
+//                                    }
+//                                    System.out.println(serie.getLastVisto());
+//                                }                                
+//                            });
+//                            return observable;
+//                        }
+//                    }));
+
                 }
                 ObservableList<String> thisCaps = FXCollections.observableArrayList(caps);
                 capitulos.setItems(thisCaps);
-                capitulos.setCellFactory(CheckBoxListCell.forListView(getSelectedProperty));
             }
             
         });
