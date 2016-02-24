@@ -9,11 +9,12 @@ import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Serie;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,8 +28,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -53,12 +56,23 @@ public class DetailsSerieController {
     private Serie serie;
     private Scene anterior;
     private MainApp mainApp;
+    private ObservableList<BooleanProperty[]> capitulosVistos;
 //    private Date today;
 //    private Calendar cal;
     
     public DetailsSerieController() {
         this.serie = MainViewController.serieToPass;
         this.anterior = MainViewController.sceneToPass;
+        
+        this.capitulosVistos = FXCollections.observableArrayList();
+        for (int i = 0; i < serie.getVistos().length; i++) {
+            BooleanProperty[] aux = new SimpleBooleanProperty[serie.getVistos()[i].length];
+            for (int j = 0; j < serie.getVistos()[i].length; j++) {
+                aux[i] = new SimpleBooleanProperty(serie.getVistos()[i][j]);
+            }
+            capitulosVistos.add(aux);
+        }
+        
 //        this.cal = Calendar.getInstance();
 //        this.today = cal.getTime();
         
@@ -100,6 +114,7 @@ public class DetailsSerieController {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 List<String> caps = new ArrayList<>();
+                
                 for(int i=0; i<serie.getCapitulos()[newValue.intValue()].length; i++) {
                     String aux = serie.getCapitulos()[newValue.intValue()][i];
                     int numCap = i+1;
@@ -111,26 +126,13 @@ public class DetailsSerieController {
                     res = String.format(res, args.toArray());
                     caps.add(res);
                     
-//                    final int Capactual = i;
-//                    final int Temactual = newValue.intValue();
+//                    BooleanProperty esteCapituloVisto = capitulosVistos.get(newValue.intValue())[i];
 //                    capitulos.setCellFactory(CheckBoxListCell.forListView(new Callback<String, ObservableValue<Boolean>>() {
 //                        @Override
 //                        public ObservableValue<Boolean> call(String param) {
-//                            BooleanProperty observable = new SimpleBooleanProperty(serie.getVistos()[newValue.intValue()][Capactual]);
-//                            observable.addListener(new ChangeListener<Boolean>() {
-//                                @Override
-//                                public void changed(ObservableValue<? extends Boolean> obs, Boolean oldValue, Boolean newValue) {
-//                                    int capSelected = capitulos.getSelectionModel().getSelectedIndex();
-//                                    if(newValue == true) {
-//                                        serie.setVistosHasta(Temactual, capSelected);
-//                                    } else if(newValue == false) {
-//                                        String[] aux = serie.getLastVisto().split("x");
-//                                        serie.setVistosHasta(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]));
-//                                    }
-//                                    System.out.println(serie.getLastVisto());
-//                                }                                
-//                            });
-//                            return observable;
+//                            BooleanProperty obs = new SimpleBooleanProperty();
+//                            obs.bind(esteCapituloVisto);
+//                            return obs;
 //                        }
 //                    }));
 

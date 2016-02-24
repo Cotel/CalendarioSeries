@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.json.JSONArray;
@@ -20,6 +22,7 @@ import org.json.JSONObject;
 
 
 /**
+ * Modelo SERIE
  *
  * @author Cotel
  */
@@ -39,6 +42,10 @@ public class Serie implements Serializable{
     
     private StringProperty tituloProperty;
     
+    /**
+     * Constructor Serie
+     * @param id = id de Imdb de la serie a instanciar
+     */
     public Serie(String id) {
         this.id = id;
         try {
@@ -99,6 +106,15 @@ public class Serie implements Serializable{
         }        
     }
     
+    /**
+     * getCapitulosMes
+     * Método que devuelve un diccionario con los dias en que se publicarán
+     * capítulos de la serie en este mes y sus títulos.
+     * @param ano = numero de año
+     * @param mes = numero de mes
+     * @return Map<Integer, String> donde el primer valor es el dia y el segundo
+     * el nombre del capítulo.
+     */
     public Map<Integer, String> getCapitulosMes(int ano, int mes) {
         Map<Integer, String> capitulosMes = new HashMap<Integer, String>();
         
@@ -124,6 +140,12 @@ public class Serie implements Serializable{
         return capitulosMes;
     }
     
+    /**
+     * readUrl
+     * Método que lee una url y devuelve la respuesta HTTP
+     * @param stringUrl = Url a leer
+     * @return String con la respuesta HTTP de la url.
+     */
     private String readUrl(String stringUrl) {
         BufferedReader reader = null;
         try {
@@ -149,6 +171,13 @@ public class Serie implements Serializable{
         return null;
     }
     
+    /**
+     * setVistosHasta
+     * Método que modifica el array de booleanos que representa que capítulos
+     * han sido vistos por el usuario hasta la temporada y capítulo introducidos.
+     * @param temporada = numero de temporada
+     * @param cap  = numero de capitulo
+     */
     public void setVistosHasta(int temporada, int cap) {
         if(temporada-1 >= 0 && temporada-1 <= this.temporadas) {
             for(int i=0; i<=temporada-1; i++) {
@@ -163,6 +192,9 @@ public class Serie implements Serializable{
         }
     }
     
+    /**
+     * Getters y Setters
+     */
     public String getLastVisto() {
         String res = "0x0";
         for(int i=0; i<this.vistos.length; i++) {

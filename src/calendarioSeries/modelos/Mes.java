@@ -15,7 +15,8 @@ import java.util.Locale;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 /**
- *
+ * Modelo SERIE
+ * 
  * @author Cotel
  */
 public class Mes {
@@ -27,6 +28,10 @@ public class Mes {
     
     private YearMonth yearMonthObject;
     
+    /**
+     *  Constructor por defecto
+     *  Crea un objeto Mes con el mes actual
+     */
     public Mes() {
         Date fecha = new Date();
         Calendar cal = Calendar.getInstance();
@@ -42,6 +47,12 @@ public class Mes {
         
     }
     
+    /**
+     *  Constructor
+     *  Crea un objeto Mes con el año y mes especificados
+     * @param numAno = numero de año
+     * @param numMes = numero de mes
+     */
     public Mes(int numAno, int numMes) {
         this.numAno = new SimpleIntegerProperty(numAno);
         this.numMes = new SimpleIntegerProperty(numMes);        
@@ -51,7 +62,11 @@ public class Mes {
                         getDisplayName(TextStyle.FULL, new Locale("es", "ES")));
         this.diasMes = new SimpleIntegerProperty(yearMonthObject.lengthOfMonth());        
         
-    }   
+    }
+    
+    /**
+     * Getters y Setters
+     */
     
     public String getNombreMes() {
         return this.nombreMes.get();
