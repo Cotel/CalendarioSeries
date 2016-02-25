@@ -135,6 +135,7 @@ public class MainViewController {
             public void run() {
                 imagenes.getChildren().clear();
                 for (Serie serie : series) {
+                    System.out.println(serie.getLastVisto());
                     try {
                         Image image = new Image(serie.getUrlImagen());
                         ImageView poster = new ImageView();

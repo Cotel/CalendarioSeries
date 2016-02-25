@@ -33,8 +33,9 @@ public class Serie implements Serializable{
     private String titulo;
     private String id;
     private String description;
-    private String[][] capitulos;
-    private boolean[][] vistos;
+    private Capitulo[][] capitulos;
+//    private String[][] capitulos;
+//    private boolean[][] vistos;
     private int temporadas;
     private JSONObject json;
     private String urlImagen;
@@ -79,21 +80,19 @@ public class Serie implements Serializable{
 
                 this.temporadas = temporada;
                 if(this.temporadas != 0) {
-                    this.capitulos = new String[temporadas][caps];
-                    this.vistos = new boolean[temporadas][caps];
+                    this.capitulos = new Capitulo[temporadas][caps];
+                    //this.vistos = new boolean[temporadas][caps];
                     for(int i=0; i<capitulos.length; i++) {
                         aux = new JSONObject(readUrl(BASE + "i=" + id +
                                 "&Season=" + (i+1) + "&r=json"));
                         JSONArray listaCaps = aux.getJSONArray("Episodes");
                         for(int j=0; j<capitulos[i].length; j++) {
                             try {
-                                capitulos[i][j] = //i+1 + "x" + (j+1) + " " +
-                                        listaCaps.getJSONObject(j).getString("Title") + " " +
-                                        listaCaps.getJSONObject(j).getString("Released");
+                                capitulos[i][j] = new Capitulo(listaCaps.getJSONObject(j).getString("Title"),
+                                                listaCaps.getJSONObject(j).getString("Released"),
+                                                false);
                             } catch (JSONException e) {
-                                capitulos[i][j] = "N/A";
-                            } finally {
-                                vistos[i][j] = false;
+                                capitulos[i][j] = new Capitulo("N/A", "N/A", false);
                             }
                         }
                     }
@@ -124,14 +123,14 @@ public class Serie implements Serializable{
         
         for(int i=0; i<capitulos[temporadas-1].length; i++) {
             if(capitulos[temporadas-1][i] != null) {
-                String fecha = capitulos[temporadas-1][i].substring(capitulos[temporadas-1][i].lastIndexOf(' ') + 1);
+                String fecha = capitulos[temporadas-1][i].getFecha().get();
                 if(!fecha.equals("N/A")) {
                     String[] detalle = fecha.split("-");
                     if (Integer.parseInt(detalle[0]) == ano && Integer.parseInt(detalle[1]) == mes && capitulosMes.containsKey(Integer.parseInt(detalle[2]))) {
                         String existing = capitulosMes.get(Integer.parseInt(detalle[2]));
-                        capitulosMes.put(Integer.parseInt(detalle[2]), existing + "\n" + capitulos[temporadas-1][i].substring(0, capitulos[temporadas-1][i].lastIndexOf(' ')));
+                        capitulosMes.put(Integer.parseInt(detalle[2]), existing + "\n" + capitulos[temporadas-1][i].getTitulo().get());
                     } else if(Integer.parseInt(detalle[0]) == ano && Integer.parseInt(detalle[1]) == mes) {
-                        capitulosMes.put(Integer.parseInt(detalle[2]), capitulos[temporadas-1][i].substring(0, capitulos[temporadas-1][i].lastIndexOf(' ')));
+                        capitulosMes.put(Integer.parseInt(detalle[2]), capitulos[temporadas-1][i].getTitulo().get());
                     }
                 }
             }
@@ -181,11 +180,11 @@ public class Serie implements Serializable{
     public void setVistosHasta(int temporada, int cap) {
         if(temporada-1 >= 0 && temporada-1 <= this.temporadas) {
             for(int i=0; i<=temporada-1; i++) {
-                for(int j=0; j<this.vistos[i].length; j++) {
+                for(int j=0; j<this.capitulos[i].length; j++) {
                     if(i<=temporada-1 && j<=cap-1) {
-                        vistos[i][j] = true;
+                        capitulos[i][j].getVisto().set(true);
                     } else {
-                        vistos[i][j] = false;
+                        capitulos[i][j].getVisto().set(false);
                     }
                 }
             }
@@ -196,16 +195,14 @@ public class Serie implements Serializable{
      * Getters y Setters
      */
     public String getLastVisto() {
-        String res = "0x0";
-        for(int i=0; i<this.vistos.length; i++) {
-            for(int j=0; j<this.vistos[i].length; j++) {
-                if(this.vistos[i][j] == false) {
-                    res = (i+1)+"x"+(j+1);
-                    return res;
+        for(int i=0; i<this.capitulos.length; i++) {
+            for(int j=0; j<this.capitulos[i].length; j++) {
+                if(this.capitulos[i][j].getVisto().getValue()) {
+                    return ((i+1) + "x" + (j+1));
                 }
             }
         }
-        return res;
+        return "1x1";
     }
 
     public String getTitulo() {
@@ -228,16 +225,16 @@ public class Serie implements Serializable{
         return this.id;
     }
     
-    public boolean[][] getVistos() {
-        return this.vistos;
-    }
+//    public boolean[][] getVistos() {
+//        return this.vistos;
+//    }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
         this.tituloProperty.setValue(titulo);
     }
 
-    public String[][] getCapitulos() {
+    public Capitulo[][] getCapitulos() {
         return capitulos;
     }
     
@@ -245,7 +242,7 @@ public class Serie implements Serializable{
         return tituloProperty;
     }
 
-    public void setCapitulos(String[][] capitulos) {
+    public void setCapitulos(Capitulo[][] capitulos) {
         this.capitulos = capitulos;
     }
 
@@ -272,15 +269,15 @@ public class Serie implements Serializable{
     
 
     
-    public static void main(String[] args) {
-        Serie arrow = new Serie("tt3107288");
-        arrow.setVistosHasta(2, 14);
-        for(int i=0; i<arrow.getTemporadas(); i++) {
-            for(int j=0; j<arrow.getVistos()[i].length; j++) {
-                System.out.printf("%02dx%02d " + arrow.getVistos()[i][j] + "\n", i+1, j+1);
-            }
-        }
-        
-    }
+//    public static void main(String[] args) {
+//        Serie arrow = new Serie("tt3107288");
+//        arrow.setVistosHasta(2, 14);
+//        for(int i=0; i<arrow.getTemporadas(); i++) {
+//            for(int j=0; j<arrow.getVistos()[i].length; j++) {
+//                System.out.printf("%02dx%02d " + arrow.getVistos()[i][j] + "\n", i+1, j+1);
+//            }
+//        }
+//        
+//    }
     
 }
