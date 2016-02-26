@@ -8,13 +8,14 @@ package calendarioSeries.vistas;
 import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Capitulo;
 import calendarioSeries.modelos.Serie;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -29,11 +30,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -59,11 +58,12 @@ public class DetailsSerieController {
     private ListView capitulos;
     
     private Serie serie;
+    private ArrayList<Serie> series;
     private Scene anterior;
     private MainApp mainApp;
     
     public DetailsSerieController() {
-        this.serie = MainViewController.serieToPass;
+        //this.serie = MainViewController.serieToPass;
         this.anterior = MainViewController.sceneToPass;
     }
     
@@ -72,16 +72,18 @@ public class DetailsSerieController {
      */
     @FXML
     public void initialize() {
+        
+    }
+    
+    void setData(Serie serie, ArrayList<Serie> series) {
+        this.series = series;
+        this.serie = serie;
         this.title.setText(serie.getTitulo());
         this.description.setText(serie.getDescription());
         Image image = new Image(serie.getUrlImagen());
         this.poster.setImage(image);
         this.poster.getStyleClass().clear();
         populateLists();
-    }
-    
-    public void setSerie(Serie serie) {
-        this.serie = serie;
     }
     
     public void setAnteriorScene(Scene scene) {
@@ -147,10 +149,34 @@ public class DetailsSerieController {
     }
     
     public void goBack(ActionEvent event) {
+        int i=0;
+        for (Serie serie : series) {
+            if(this.serie.equals(serie)){
+                series.set(i, serie);
+                break;
+            }
+            i++;
+        }
+        File file;
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+        try {
+            file = new File("data.db");
+            fos = new FileOutputStream(file);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(this.series);
+            oos.flush();
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
+        
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
             Parent root = loader.load();
             MainViewController controller = loader.getController();
+            //controller.setSeries(series);
             
             mainApp.scene.setCursor(Cursor.WAIT);
             Scene scene = MainViewController.sceneToPass;
@@ -163,5 +189,7 @@ public class DetailsSerieController {
             event.consume();
         }
     }
+
+    
     
 }

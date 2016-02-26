@@ -5,6 +5,10 @@
  */
 package calendarioSeries.modelos;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,11 +18,17 @@ import javafx.beans.property.StringProperty;
  *
  * @author Cotel
  */
-public class Capitulo {
+public class Capitulo implements Externalizable {
     
     private StringProperty titulo;
     private StringProperty fecha;
     private BooleanProperty visto;
+    
+    public Capitulo() {
+        this.fecha = new SimpleStringProperty();
+        this.titulo = new SimpleStringProperty();
+        this.visto = new SimpleBooleanProperty();
+    }
     
     public Capitulo(String titulo, String fecha, boolean visto) {
         this.fecha = new SimpleStringProperty(fecha);
@@ -57,6 +67,20 @@ public class Capitulo {
 
     public void setVisto(BooleanProperty visto) {
         this.visto = visto;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(getFecha().get());
+        out.writeObject(getTitulo().get());
+        out.writeBoolean(getVisto().get());
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        this.fecha.set((String) in.readObject());
+        this.titulo.set((String) in.readObject());
+        this.visto.set(in.readBoolean());
     }
     
     

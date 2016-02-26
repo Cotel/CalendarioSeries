@@ -36,6 +36,7 @@ and open the template in the editor.
     -fx-font-family: "Hack Regular";
     -fx-background-color: #1d1d1d;
     -fx-text-fill: white;
+    -fx-font-size: 12pt;
 }
 
 .list-cell:even {

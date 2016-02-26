@@ -37,11 +37,11 @@ public class Serie implements Serializable{
 //    private String[][] capitulos;
 //    private boolean[][] vistos;
     private int temporadas;
-    private JSONObject json;
+    //private JSONObject json;
     private String urlImagen;
     private String year;
     
-    private StringProperty tituloProperty;
+    //private StringProperty tituloProperty;
     
     /**
      * Constructor Serie
@@ -52,12 +52,12 @@ public class Serie implements Serializable{
         try {
             String toJson = readUrl(BASE + "i=" + id +
                     "&type=series" + "&plot=short" + "&r=json");
-            this.json = new JSONObject(toJson);
+            JSONObject json = new JSONObject(toJson);
             
-            if(this.json.getString("Response").equals("True")) {
+            if(json.getString("Response").equals("True")) {
                 this.titulo = json.getString("Title");
                 this.description = json.getString("Plot");
-                this.tituloProperty = new SimpleStringProperty(titulo);
+                //this.tituloProperty = new SimpleStringProperty(titulo);
                 this.urlImagen = json.getString("Poster");
                 this.year = json.getString("Year");
 
@@ -178,15 +178,9 @@ public class Serie implements Serializable{
      * @param cap  = numero de capitulo
      */
     public void setVistosHasta(int temporada, int cap) {
-        if(temporada-1 >= 0 && temporada-1 <= this.temporadas) {
-            for(int i=0; i<=temporada-1; i++) {
-                for(int j=0; j<this.capitulos[i].length; j++) {
-                    if(i<=temporada-1 && j<=cap-1) {
-                        capitulos[i][j].getVisto().set(true);
-                    } else {
-                        capitulos[i][j].getVisto().set(false);
-                    }
-                }
+        for(int i=0; i<=temporada; i++) {
+            for(int j=0; j<=cap; j++) {
+                capitulos[i][j].getVisto().set(true);
             }
         }
     }
@@ -194,15 +188,18 @@ public class Serie implements Serializable{
     /**
      * Getters y Setters
      */
-    public String getLastVisto() {
+    public int[] getLastVisto() {
+        int[] res = {0, 0};
         for(int i=0; i<this.capitulos.length; i++) {
             for(int j=0; j<this.capitulos[i].length; j++) {
-                if(this.capitulos[i][j].getVisto().getValue()) {
-                    return ((i+1) + "x" + (j+1));
+                if(!this.capitulos[i][j].getVisto().getValue()) {
+                    res[0] = i;
+                    res[1] = j;
+                    return res;
                 }
             }
         }
-        return "1x1";
+        return res;
     }
 
     public String getTitulo() {
@@ -231,16 +228,16 @@ public class Serie implements Serializable{
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-        this.tituloProperty.setValue(titulo);
+        //this.tituloProperty.setValue(titulo);
     }
 
     public Capitulo[][] getCapitulos() {
         return capitulos;
     }
     
-    public StringProperty getTituloProperty() {
-        return tituloProperty;
-    }
+//    public StringProperty getTituloProperty() {
+//        return tituloProperty;
+//    }
 
     public void setCapitulos(Capitulo[][] capitulos) {
         this.capitulos = capitulos;

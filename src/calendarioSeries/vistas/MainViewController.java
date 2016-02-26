@@ -9,8 +9,12 @@ import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Mes;
 import calendarioSeries.modelos.Serie;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -70,43 +76,67 @@ public class MainViewController {
     
     public MainApp mainApp;
     private Mes mesActual;
-    private List<Serie> series;
+    public ArrayList<Serie> series;
     private int hoy;
     private int esteMes;
     private int esteAno;
     
-    public static Serie serieToPass;
+    //public static Serie serieToPass;
     public static Scene sceneToPass;
     
     public MainViewController() {
-        mesActual = new Mes();
-        this.series = new ArrayList<>();
+        mesActual = new Mes();        
         Calendar cal = Calendar.getInstance();
         this.hoy = cal.get(Calendar.DAY_OF_MONTH);
         this.esteMes = mesActual.getNumMes();
         this.esteAno = mesActual.getNumAno();
+        
+        File file = new File("data.db");
+        FileInputStream fis;
+        ObjectInputStream ois;
         try {
-            File datos = new File("seriesUsuario.json");
-            Scanner in = new Scanner(datos);
-            String toJson = "";
-            while(in.hasNext()) {
-                toJson += in.nextLine();
+            fis = new FileInputStream(file);
+            ois = new ObjectInputStream(fis);
+            this.series = (ArrayList<Serie>) ois.readObject();
+            ois.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            this.series = new ArrayList<>();
+            try {
+                File datos = new File("seriesUsuario.json");
+                Scanner in = new Scanner(datos);
+                String toJson = "";
+                while(in.hasNext()) {
+                    toJson += in.nextLine();
+                }
+                JSONObject sesion = new JSONObject(toJson);
+                Set<String> ids = sesion.keySet();
+                for (String id : ids) {
+                    Serie aux = new Serie(id);
+                    if(series.contains(aux)) {
+                        JSONArray lastVisto = sesion.getJSONArray(id).getJSONArray(1);
+                        aux.setVistosHasta(lastVisto.getInt(0), lastVisto.getInt(1));
+                        int i=0;
+                        for (Serie serie : series) {
+                            if(serie.equals(aux)){
+                                this.series.set(i,aux);
+                            }
+                            i++;
+                        }
+                    } else {
+                        this.series.add(aux);
+                    }
+                }
+
+            } catch (FileNotFoundException e) {
+
             }
-            JSONObject sesion = new JSONObject(toJson);
-            Set<String> ids = sesion.keySet();
-            for (String id : ids) {
-                Serie aux = new Serie(id);
-                JSONArray lastVisto = sesion.getJSONArray(id);
-                String lastVistoString = lastVisto.getString(1);
-//                System.out.println(lastVisto.get(1));
-                aux.setVistosHasta(Integer.parseInt(lastVistoString.substring(0, lastVistoString.lastIndexOf('x'))),
-                        Integer.parseInt(lastVistoString.substring(lastVistoString.lastIndexOf('x')+1, lastVistoString.length())));
-                this.series.add(new Serie(id));
-            }
-            
-        } catch (FileNotFoundException e) {
-                        
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
         }
+         
+        
+        
     }
     
     @FXML
@@ -129,13 +159,17 @@ public class MainViewController {
         return this.series;
     }
     
+    public void setSeries(ArrayList<Serie> series) {
+        this.series = series;
+    }
+    
     public void populateImagenes() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 imagenes.getChildren().clear();
                 for (Serie serie : series) {
-                    System.out.println(serie.getLastVisto());
+                    //System.out.println(serie.getLastVisto());
                     try {
                         Image image = new Image(serie.getUrlImagen());
                         ImageView poster = new ImageView();
@@ -180,12 +214,13 @@ public class MainViewController {
                             public void handle(MouseEvent event) {
                                 if(event.getButton() == MouseButton.PRIMARY) {
                                     try {
-                                        serieToPass = serie;
+                                        //serieToPass = serie;
                                         sceneToPass = mainApp.scene;
 
                                         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailsSerieController.fxml"));                                    
                                         Parent root = loader.load();
                                         DetailsSerieController controller = loader.getController();
+                                        controller.setData(serie, series);
                                         controller.setMainApp(mainApp);
 
                                         Scene scene = new Scene(root);
@@ -269,6 +304,17 @@ public class MainViewController {
             pw.println(array.toString());
             pw.flush();
             
+            File fileSeries = new File("data.db");
+            FileOutputStream fos = new FileOutputStream(fileSeries);
+            ObjectOutputStream oos;
+            try {
+                oos = new ObjectOutputStream(fos);
+                oos.writeObject(series);
+                oos.flush();
+                oos.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
