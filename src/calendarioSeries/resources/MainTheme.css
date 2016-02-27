@@ -174,7 +174,16 @@ and open the template in the editor.
 }
 
 .context-menu {
+    -fx-skin: null;
     -fx-background-color: derive(#1d1d1d,50%);
+}
+
+.menu-item .label {
+    -fx-skin: null;
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
 }
 
 .menu-bar .label {

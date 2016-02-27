@@ -5,11 +5,15 @@
  */
 package calendarioSeries.vistas;
 
+import calendarioSeries.MainApp;
 import calendarioSeries.modelos.Serie;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -72,35 +76,44 @@ public class NewSerieController {
                     HBox resultadoActual = new HBox(50);                    
                     resultadoActual.setMaxWidth(Double.MAX_VALUE);
                     resultadoActual.setAlignment(Pos.CENTER_LEFT);
+                    ImageView posterActual = new ImageView();
                     
                     try {
                         Image image = new Image(resActual.getString("Poster"));
-                        ImageView posterActual = new ImageView();
                         posterActual.setImage(image);
-                        posterActual.setFitHeight(200);
+                        posterActual.setFitHeight(240);
                         posterActual.setFitWidth(180);
-                        posterActual.setPreserveRatio(true);
+                        posterActual.setPreserveRatio(false);
                         resultadoActual.getChildren().add(posterActual);
                     } catch (IllegalArgumentException e) {
-                        System.out.println("Bad url");
-                    }                    
+//                        System.out.println("Bad url");
+                        Image image = new Image(MainApp.class.getResource("resources/no-image.png").toExternalForm());
+                        posterActual.setImage(image);
+                        posterActual.setFitHeight(240);
+                        posterActual.setFitWidth(180);
+                        posterActual.setPreserveRatio(false);
+                        resultadoActual.getChildren().add(posterActual);
+                    }
                     
-                    Label elemento = new Label(resActual.getString("Title").concat("\t\t Año: ").concat(resActual.getString("Year")));
+                    String details;
+                    String nomSerie = new String(resActual.getString("Title").getBytes(), "UTF-8");
+                    String anoSerie = new String(resActual.getString("Year").getBytes(), "UTF-8");
+                    if(nomSerie.length() > 15) {
+                        details = "%-12.12s...\t\t Año: %-10s";
+                    } else {
+                        details = "%-12s\t\t Año: %-10s";
+                    }                    
+                    details = String.format(details, nomSerie, anoSerie);
+                    Label elemento = new Label(details);
                     elemento.setMaxWidth(Double.MAX_VALUE);
                     elemento.setMaxHeight(Double.MAX_VALUE);                    
                     resultadoActual.getChildren().add(elemento);
                     
-                    Button addActual = new Button("+");
-                    addActual.setId(resActual.getString("imdbID"));
-                    addActual.getStyleClass().add("button-small");
-                    changeStyleOnHover(addActual);
-                    addActual.setAlignment(Pos.CENTER);
-                    addActual.setMinWidth(30);
-                    addActual.setPrefWidth(30);
-                    addActual.setOnAction(new EventHandler<ActionEvent>() {
+                    posterActual.setId(resActual.getString("imdbID"));
+                    posterActual.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
-                        public void handle(ActionEvent event) {
-                            Button clickedButton = (Button) event.getSource();
+                        public void handle(MouseEvent event) {
+                            ImageView clickedButton = (ImageView) event.getSource();
                             Stage stage = (Stage) clickedButton.getScene().getWindow();
                             Task task = new Task() {
                                 @Override
@@ -133,8 +146,6 @@ public class NewSerieController {
                             stage.close();
                         }
                     });
-                    resultadoActual.getChildren().add(addActual);
-                    
                     resultados.getChildren().add(resultadoActual);
                 }
             } else {
@@ -142,6 +153,8 @@ public class NewSerieController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(NewSerieController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

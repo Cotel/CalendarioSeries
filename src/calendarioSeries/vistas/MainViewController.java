@@ -174,6 +174,7 @@ public class MainViewController {
                         Image image = new Image(serie.getUrlImagen());
                         ImageView poster = new ImageView();
                         ContextMenu menu = new ContextMenu();
+                        //String css = MainApp.class.getResource("resources/MainTheme.css").toExternalForm();
                         MenuItem delete = new MenuItem("Eliminar");
                         delete.setId(serie.getId());
                         delete.setOnAction(new EventHandler<ActionEvent>() {
@@ -206,6 +207,7 @@ public class MainViewController {
                             @Override
                             public void handle(ContextMenuEvent event) {
                                 menu.show(poster, event.getScreenX(), event.getScreenY());
+                                //menu.getScene().getRoot().getStylesheets().add(css);
                                 event.consume();
                             }                    
                         });
@@ -229,7 +231,6 @@ public class MainViewController {
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
                                     }
-
                                 }
                             }
                             
@@ -400,6 +401,7 @@ public class MainViewController {
             stage.setScene(new Scene(root));
             stage.setMinHeight(650);
             stage.setMinWidth(600);
+            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
