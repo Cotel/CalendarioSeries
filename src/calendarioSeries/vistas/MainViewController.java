@@ -76,7 +76,7 @@ public class MainViewController {
     
     public MainApp mainApp;
     private Mes mesActual;
-    public ArrayList<Serie> series;
+    private ArrayList<Serie> series;
     private int hoy;
     private int esteMes;
     private int esteAno;
@@ -263,7 +263,7 @@ public class MainViewController {
 
                         poster.setId(serie.getTitulo());
                         poster.setImage(image);
-                        //poster.setCache(true);
+                        poster.setCache(true);
                         //poster.setPreserveRatio(true);
                         poster.setFitWidth(210);
                         poster.setFitHeight(300);

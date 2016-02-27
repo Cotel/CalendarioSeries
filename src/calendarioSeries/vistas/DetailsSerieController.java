@@ -28,10 +28,13 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -124,8 +127,8 @@ public class DetailsSerieController {
                 capitulos.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        if(event.getClickCount() == 2) {
-                            int index = capitulos.getSelectionModel().getSelectedIndex();
+                        int index = capitulos.getSelectionModel().getSelectedIndex();
+                        if(event.getClickCount() == 2) {                            
                             serie.getCapitulos()[tempActual][index].changeVisto();
                             String cell = (String)capitulos.getSelectionModel().getSelectedItem();
                             Capitulo aux = serie.getCapitulos()[tempActual][index];
@@ -139,6 +142,22 @@ public class DetailsSerieController {
                             caps.set(index, cell);
                             ObservableList<String> thisCaps = FXCollections.observableArrayList(caps);
                             capitulos.setItems(thisCaps);
+                        } else if(event.getButton() == MouseButton.SECONDARY) {
+                            ContextMenu menu = new ContextMenu();
+                            MenuItem setVistos = new MenuItem("Ver anteriores");
+                            setVistos.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    serie.setVistosHasta(tempActual, index);
+                                    temporadas.getSelectionModel().select(0);
+                                    capitulos.getSelectionModel().select(0);
+                                    temporadas.getSelectionModel().select(serie.getLastVisto()[0]);
+                                    capitulos.getSelectionModel().select(serie.getLastVisto()[1]);
+                                    event.consume();
+                                }
+                            });
+                            menu.getItems().add(setVistos);
+                            menu.show(capitulos, event.getScreenX(), event.getScreenY());
                         }
                     }
                 });
@@ -146,6 +165,8 @@ public class DetailsSerieController {
             }
             
         });
+        temporadas.getSelectionModel().select(serie.getLastVisto()[0]);
+        capitulos.getSelectionModel().select(serie.getLastVisto()[1]);
     }
     
     public void goBack(ActionEvent event) {

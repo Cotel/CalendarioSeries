@@ -179,8 +179,14 @@ public class Serie implements Serializable{
      */
     public void setVistosHasta(int temporada, int cap) {
         for(int i=0; i<=temporada; i++) {
-            for(int j=0; j<=cap; j++) {
-                capitulos[i][j].getVisto().set(true);
+            if(i<temporada) {
+                for (int j = 0; j < capitulos[i].length; j++) {
+                    capitulos[i][j].getVisto().set(true);
+                }
+            } else {
+                for(int j=0; j<=cap; j++) {
+                    capitulos[i][j].getVisto().set(true);
+                }
             }
         }
     }

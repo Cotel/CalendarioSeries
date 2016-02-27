@@ -1,3 +1,6 @@
+*.db
+*.json
+*.zip
 nbproject/private/
 build/
 nbbuild/
