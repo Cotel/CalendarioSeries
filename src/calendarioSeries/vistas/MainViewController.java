@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,6 +31,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -46,6 +46,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -406,6 +407,19 @@ public class MainViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    @FXML
+    public void handleAbout() {
+        Alert about = new Alert(AlertType.INFORMATION);
+        about.initStyle(StageStyle.UTILITY);
+        about.setTitle("About");
+        about.setHeaderText("Calendario Series v1.1");
+        about.setContentText("Creado por Miguel Coleto."
+                + "\nThe MIT License (MIT) Copyright (c) 2016 "
+                + "\nhttps://github.com/Cotel/CalendarioSeries");
+        
+        about.showAndWait();
     }
     
     @FXML
