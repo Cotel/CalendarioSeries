@@ -14,4 +14,5 @@ before_install:
     - export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
     - export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
     - brew install jdk
+    - ls /home/travis/.linuxbrew/Cellar/jdk
 #    - export JAVA_HOME=/home/travis/.linuxbrew/Cellar/jdk/1.8.0-40
