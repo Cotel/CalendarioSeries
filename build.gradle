@@ -1,0 +1,39 @@
+group 'com.example.cotel'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.h2database:h2:1.4.191'
+        classpath 'org.flywaydb:flyway-gradle-plugin:3.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'flyway'
+apply from: "http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin"
+
+flyway {
+    url = 'jdbc:h2:file:./db/repository'
+}
+
+javafx {
+    appID 'CalendarioSeries'
+    appName 'Calendario Series'
+    mainClass 'calendarioSeries.MainApp'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.hibernate:hibernate-core:5.2.1.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.2.1.Final'
+    compile group: 'org.json', name: 'json', version: '20090211'
+    compile group: 'com.h2database', name: 'h2', version: '1.0.60'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
